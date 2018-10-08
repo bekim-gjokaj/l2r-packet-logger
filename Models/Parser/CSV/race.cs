@@ -23,11 +23,11 @@ namespace Kamael.Packets.CSV
 
             if (_records == null)
             {
-                using (StreamReader sr = new StreamReader(@"CSV\Race_Name.csv"))
-                {
-                    CsvReader csv = new CsvReader(sr);
-                    _records = csv.GetRecords<raceheader>().ToList();
-                }
+                //using (StreamReader sr = new StreamReader(@"CSV\Race_Name.csv"))
+                //{
+                //    CsvReader csv = new CsvReader(sr);
+                //    _records = csv.GetRecords<raceheader>().ToList();
+                //}
             }
 
         IDSearch:

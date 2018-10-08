@@ -1211,10 +1211,6 @@ namespace Kamael.Packets.Factory
 
                 case 776:
                     return new PacketChatGuildWriteResult(packet);      // 0x309 //result = "PktChatGuildWriteResult";
-
-                    //PktChatGuildWriteResult.Packet(packet);
-                    break;
-
                 case 777:       // 0x30A
                     //result = "PktChatGuildWriteNotify";
                     break;

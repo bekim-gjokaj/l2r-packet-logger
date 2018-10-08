@@ -6,7 +6,7 @@ namespace Kamael.Packets.Clan
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketClanMemberKillNotify : IL2RPacket
+    public class PacketClanMemberKillNotify : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketClanMemberKillNotify" /> class.
@@ -47,7 +47,7 @@ namespace Kamael.Packets.Clan
         /// <value>
         /// The name of the clan2.
         /// </value>
-        private string Clan2Name { get; set; }
+        public string Clan2Name { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the clan.
@@ -55,7 +55,7 @@ namespace Kamael.Packets.Clan
         /// <value>
         /// The name of the clan.
         /// </value>
-        private string ClanName { get; set; }
+        public string ClanName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the player2.
@@ -63,7 +63,7 @@ namespace Kamael.Packets.Clan
         /// <value>
         /// The name of the player2.
         /// </value>
-        private string Player2Name { get; set; }
+        public string Player2Name { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the player.
@@ -71,6 +71,6 @@ namespace Kamael.Packets.Clan
         /// <value>
         /// The name of the player.
         /// </value>
-        private string PlayerName { get; set; }
+        public string PlayerName { get; set; }
     }
 }

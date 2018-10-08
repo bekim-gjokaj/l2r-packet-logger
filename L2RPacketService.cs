@@ -1,8 +1,10 @@
-﻿using Kamael.Packets.Factory;
+﻿using Kamael.Packets.Clan;
+using Kamael.Packets.Factory;
 using PacketDotNet;
 using SharpPcap;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Kamael.Packets
 {
@@ -11,6 +13,7 @@ namespace Kamael.Packets
     /// </summary>
     public class L2RPacketService
     {
+        public static ICaptureDevice Device { get; set; }
         // A few variable used throughout the program
         /// <summary>
         /// The encryption key
@@ -30,7 +33,7 @@ namespace Kamael.Packets
         /// <summary>
         /// The default device
         /// </summary>
-        public static int defaultDevice = 1;
+        public static int defaultDevice = 3;
 
         /// <summary>
         /// Parses the packet.
@@ -38,17 +41,37 @@ namespace Kamael.Packets
         /// <param name="packetReader">The packet reader.</param>
         /// <returns></returns>
         /// 
-        /* Retrieve the device list  part of initialization*/
-        private CaptureDeviceList devices = CaptureDeviceList.Instance;
 
-        private ICaptureDevice device = CaptureDeviceList.Instance[L2RPacketService.Initialization(Globals.args)];
-
-
-        public void Start()
+        public L2RPacketService()
         {
-            //Register our handler function to the 'packet arrival' event
-            device.OnPacketArrival +=
-                new PacketArrivalEventHandler(L2RPacketService.PacketCapturer);
+            
+        }
+        public L2RPacketService(ICaptureDevice device)
+        {
+            Device = device;
+        }
+
+        public static void Start()
+        {
+            if(Device == null)
+            {
+                InitializeDevice();
+            }
+
+            Console.WriteLine
+                ("\n-- The following filter will be applied: \"{0}\"",
+                L2RPacketService.filter);
+            Console.WriteLine
+                ("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
+                              Device.Name, Device.Description);
+
+            // Start the capturing process
+            Device.StartCapture();
+        }
+
+
+        public async Task StartAsync(ICaptureDevice device)
+        {
 
             // Open the device for capturing
             device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
@@ -68,7 +91,7 @@ namespace Kamael.Packets
             device.StartCapture();
         }
 
-        
+
         public static IL2RPacket ParsePacket(L2RPacket packetReader)
         {
             ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
@@ -202,6 +225,7 @@ namespace Kamael.Packets
         {
             DateTime time = e.Packet.Timeval.Date;
             int len = e.Packet.Data.Length;
+            IL2RPacket l2rPacket = null;
 
             Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
 
@@ -222,7 +246,15 @@ namespace Kamael.Packets
                 // Decrypt and process incoming packets
                 if (srcPort == 12000)
                 {
-                    AppendIncomingData(payloadData);
+                    l2rPacket = AppendIncomingData(payloadData);
+                    
+                    //if (l2rPacket is PacketClanMemberKillNotify)
+                    //{
+                    //    .Go().GetAwaiter().OnCompleted(() =>
+                    //     {
+                    //         Console.WriteLine("finished");
+                    //     });
+                    //}
                 }
             }
         }
@@ -236,8 +268,9 @@ namespace Kamael.Packets
         /// Appends the incoming data.
         /// </summary>
         /// <param name="payloadData">The payload data.</param>
-        public static void AppendIncomingData(byte[] payloadData)
+        public static IL2RPacket AppendIncomingData(byte[] payloadData)
         {
+            IL2RPacket packet = null;
             _incomingBuffer.AddRange(payloadData);
 
             // If the buffer contains any complete packets, process them
@@ -252,13 +285,15 @@ namespace Kamael.Packets
                     _incomingBuffer.RemoveRange(0, packetLength);
 
                     DecryptPacket(packetData);
-                    ParsePacket(new L2RPacket(packetData));
+                    packet = ParsePacket(new L2RPacket(packetData));
                 }
                 else
                 {
                     break;
-                }
+                }                
             }
+
+            return packet;
         }
 
         /// <summary>
@@ -297,6 +332,27 @@ namespace Kamael.Packets
         public static void ExitProgram()
         {
             Environment.Exit(0);
+        }
+
+        public static void InitializeDevice()
+        {
+            /* Retrieve the device list  part of initialization*/
+            CaptureDeviceList devices = CaptureDeviceList.Instance;
+
+            ICaptureDevice device = CaptureDeviceList.Instance[L2RPacketService.Initialization(Globals.args)];
+
+            //Register our handler function to the 'packet arrival' event
+            device.OnPacketArrival +=
+                    new PacketArrivalEventHandler(L2RPacketService.PacketCapturer);
+
+            // Open the device for capturing
+            device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
+
+            //filter to capture only packets from L2R that have data
+            //string filter = "src port 12000 and len > 60";
+            device.Filter = L2RPacketService.filter;
+
+            Device = device;
         }
     }
 }
