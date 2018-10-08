@@ -15,7 +15,6 @@ steps:
 - script: |
     dotnet build --configuration $(buildConfiguration)
     dotnet publish --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
-- displayName: 'dotnet build and publish'
 
 - task: PublishBuildArtifacts@1
   displayName: 'publish build artifacts'
