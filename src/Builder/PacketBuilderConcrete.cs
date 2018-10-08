@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kamael.Packets.Chat;
+using System;
 
 /// <summary>
 ///
@@ -1220,9 +1221,7 @@ namespace Kamael.Packets.Builder
                     break;
 
                 case 774:       // 0x307
-                    //result = "PktChatGuildListReadResult";
-                    //PktChatGuildListReadResult.Packet(packet);
-                    break;
+                    return new PacketChatGuildListReadResult((L2RPacket)RawPacket);
 
                 case 775:       // 0x308
                     //result = "PktChatGuildWrite";

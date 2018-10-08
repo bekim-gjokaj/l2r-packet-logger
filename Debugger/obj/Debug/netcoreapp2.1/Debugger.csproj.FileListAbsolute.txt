@@ -1,0 +1,14 @@
+D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Debugger.deps.json
+D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Debugger.runtimeconfig.json
+D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Debugger.runtimeconfig.dev.json
+D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Debugger.dll
+D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Kamael.Packets.dll
+D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Kamael.Packets.pdb
+D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.csprojAssemblyReference.cache
+D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.csproj.CoreCompileInputs.cache
+D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.AssemblyInfoInputs.cache
+D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.AssemblyInfo.cs
+D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.csproj.CopyComplete
+D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Debugger.pdb
+D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.dll
+D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.pdb

@@ -51,61 +51,90 @@ namespace Kamael.Packets
             Device = device;
         }
 
-        public static void Start()
+        public static void Start(ICaptureDevice device)
         {
-            if(Device == null)
+            try
             {
-                InitializeDevice();
+                Device = device;
+
+
+                // Open the device for capturing
+                device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
+
+                //filter to capture only packets from L2R that have data
+                //string filter = "src port 12000 and len > 60";
+                device.Filter = L2RPacketService.filter;
+
+                Console.WriteLine
+                    ("\n-- The following filter will be applied: \"{0}\"",
+                    L2RPacketService.filter);
+                Console.WriteLine
+                    ("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
+                                  device.Name, device.Description);
+
+                // Start the capturing process
+                device.StartCapture();
             }
-
-            Console.WriteLine
-                ("\n-- The following filter will be applied: \"{0}\"",
-                L2RPacketService.filter);
-            Console.WriteLine
-                ("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
-                              Device.Name, Device.Description);
-
-            // Start the capturing process
-            Device.StartCapture();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException);
+            }
         }
 
 
         public async Task StartAsync(ICaptureDevice device)
         {
 
-            // Open the device for capturing
-            device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
+            try
+            {
+                // Open the device for capturing
+                device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
 
-            //filter to capture only packets from L2R that have data
-            //string filter = "src port 12000 and len > 60";
-            device.Filter = L2RPacketService.filter;
+                //filter to capture only packets from L2R that have data
+                //string filter = "src port 12000 and len > 60";
+                device.Filter = L2RPacketService.filter;
 
-            Console.WriteLine
-                ("\n-- The following filter will be applied: \"{0}\"",
-                L2RPacketService.filter);
-            Console.WriteLine
-                ("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
-                              device.Name, device.Description);
+                Console.WriteLine
+                    ("\n-- The following filter will be applied: \"{0}\"",
+                    L2RPacketService.filter);
+                Console.WriteLine
+                    ("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
+                                  device.Name, device.Description);
 
-            // Start the capturing process
-            device.StartCapture();
+                // Start the capturing process
+                device.StartCapture();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException);
+            }
         }
 
 
         public static IL2RPacket ParsePacket(L2RPacket packetReader)
         {
-            ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
+            try
+            {
+                ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
+                Console.WriteLine("-Packet ID: " + packetId + "\r");
 
-            PacketFactory factory = new ConcretePacketFactory();
-            IL2RPacket pckt = factory.GetPacket(packetId, packetReader);
+                PacketFactory factory = new ConcretePacketFactory();
+                IL2RPacket pckt = factory.GetPacket(packetId, packetReader);
+                Console.WriteLine("*** Packet Transformed: " + pckt.GetType() + " \r");
 
-            return pckt;
-            //var director = new PacketDirector();
-            //var packet = director.Construct();
-            //packet.Parts.ForEach((part) => Console.WriteLine(part));
+                return pckt;
+                //var director = new PacketDirector();
+                //var packet = director.Construct();
+                //packet.Parts.ForEach((part) => Console.WriteLine(part));
 
-            // Change the following for different Servers. INT/JAP/KOR/SEA
-            //HandlerINT.TypePacket(packetReader, packetId);
+                // Change the following for different Servers. INT/JAP/KOR/SEA
+                //HandlerINT.TypePacket(packetReader, packetId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Parse Packet Error: \r\n" + ex.InnerException);
+                return null;
+            }
         }
 
         /// <summary>
@@ -223,39 +252,46 @@ namespace Kamael.Packets
         /// <param name="e">The <see cref="CaptureEventArgs"/> instance containing the event data.</param>
         public static void PacketCapturer(object sender, CaptureEventArgs e)
         {
-            DateTime time = e.Packet.Timeval.Date;
-            int len = e.Packet.Data.Length;
-            IL2RPacket l2rPacket = null;
-
-            Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
-
-            TcpPacket tcpPacket = (PacketDotNet.TcpPacket)packet.Extract(typeof(PacketDotNet.TcpPacket));
-            if (tcpPacket != null)
+            try
             {
-                IPPacket ipPacket = (IPPacket)tcpPacket.ParentPacket;
-                System.Net.IPAddress srcIp = ipPacket.SourceAddress;
-                System.Net.IPAddress dstIp = ipPacket.DestinationAddress;
-                int srcPort = tcpPacket.SourcePort;
-                int dstPort = tcpPacket.DestinationPort;
-                byte[] payloadData = tcpPacket.PayloadData;
+                DateTime time = e.Packet.Timeval.Date;
+                int len = e.Packet.Data.Length;
+                IL2RPacket l2rPacket = null;
 
-                Console.WriteLine("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
-                time.Hour, time.Minute, time.Second, time.Millisecond, len,
-                srcIp, srcPort, dstIp, dstPort);
+                Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
 
-                // Decrypt and process incoming packets
-                if (srcPort == 12000)
+                TcpPacket tcpPacket = (PacketDotNet.TcpPacket)packet.Extract(typeof(PacketDotNet.TcpPacket));
+                if (tcpPacket != null)
                 {
-                    l2rPacket = AppendIncomingData(payloadData);
-                    
-                    //if (l2rPacket is PacketClanMemberKillNotify)
-                    //{
-                    //    .Go().GetAwaiter().OnCompleted(() =>
-                    //     {
-                    //         Console.WriteLine("finished");
-                    //     });
-                    //}
+                    IPPacket ipPacket = (IPPacket)tcpPacket.ParentPacket;
+                    System.Net.IPAddress srcIp = ipPacket.SourceAddress;
+                    System.Net.IPAddress dstIp = ipPacket.DestinationAddress;
+                    int srcPort = tcpPacket.SourcePort;
+                    int dstPort = tcpPacket.DestinationPort;
+                    byte[] payloadData = tcpPacket.PayloadData;
+
+                    Console.WriteLine("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
+                    time.Hour, time.Minute, time.Second, time.Millisecond, len,
+                    srcIp, srcPort, dstIp, dstPort);
+
+                    // Decrypt and process incoming packets
+                    if (srcPort == 12000)
+                    {
+                        l2rPacket = AppendIncomingData(payloadData);
+
+                        //if (l2rPacket is PacketClanMemberKillNotify)
+                        //{
+                        //    .Go().GetAwaiter().OnCompleted(() =>
+                        //     {
+                        //         Console.WriteLine("finished");
+                        //     });
+                        //}
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Parser Error: \r\n" + ex.InnerException);
             }
         }
 
@@ -270,30 +306,38 @@ namespace Kamael.Packets
         /// <param name="payloadData">The payload data.</param>
         public static IL2RPacket AppendIncomingData(byte[] payloadData)
         {
-            IL2RPacket packet = null;
-            _incomingBuffer.AddRange(payloadData);
-
-            // If the buffer contains any complete packets, process them
-            while (_incomingBuffer.Count >= 2)
+            try
             {
-                ushort packetLength = BitConverter.ToUInt16(_incomingBuffer.GetRange(0, 2).ToArray(), 0);
-                if (_incomingBuffer.Count >= packetLength)
+                IL2RPacket packet = null;
+                _incomingBuffer.AddRange(payloadData);
+
+                // If the buffer contains any complete packets, process them
+                while (_incomingBuffer.Count >= 2)
                 {
-                    byte spacer = _incomingBuffer[2]; // skip 1 byte
+                    ushort packetLength = BitConverter.ToUInt16(_incomingBuffer.GetRange(0, 2).ToArray(), 0);
+                    if (_incomingBuffer.Count >= packetLength)
+                    {
+                        byte spacer = _incomingBuffer[2]; // skip 1 byte
 
-                    byte[] packetData = _incomingBuffer.GetRange(3, packetLength - 3).ToArray();
-                    _incomingBuffer.RemoveRange(0, packetLength);
+                        byte[] packetData = _incomingBuffer.GetRange(3, packetLength - 3).ToArray();
+                        _incomingBuffer.RemoveRange(0, packetLength);
 
-                    DecryptPacket(packetData);
-                    packet = ParsePacket(new L2RPacket(packetData));
+                        DecryptPacket(packetData);
+                        packet = ParsePacket(new L2RPacket(packetData));
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-                else
-                {
-                    break;
-                }                
-            }
 
-            return packet;
+                return packet;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Incoming Data Error: \r\n" + ex.InnerException);
+                return null;
+            }
         }
 
         /// <summary>
@@ -339,7 +383,7 @@ namespace Kamael.Packets
             /* Retrieve the device list  part of initialization*/
             CaptureDeviceList devices = CaptureDeviceList.Instance;
 
-            ICaptureDevice device = CaptureDeviceList.Instance[L2RPacketService.Initialization(Globals.args)];
+            ICaptureDevice device = CaptureDeviceList.Instance[Globals.deviceInterface];
 
             //Register our handler function to the 'packet arrival' event
             device.OnPacketArrival +=

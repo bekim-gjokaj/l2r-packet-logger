@@ -8,5 +8,6 @@ namespace Kamael
     {
         public static int lootIndex;
         public static string[] args;
+        public static int deviceInterface;
     }
 }
