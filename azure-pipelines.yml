@@ -2,13 +2,15 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Build ASP.NET Core project using Azure Pipelines
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
-name: $(BuildDefinitionName)0.0$(Rev:.r)
+name: $(BuildDefinitionName).$(Major).$(Minor).Patch.$(Rev:.r)
 pool:
   vmImage: 'Ubuntu 16.04'
   
 variables:
   buildConfiguration: 'Release'
-  BUILD_BUILDNUMBER: 0.0.1
+  Major: '1'
+  Minor: '0'
+  Patch: '0'
 
 steps:
 
@@ -27,11 +29,11 @@ steps:
     packagesToPack: '**/*.csproj' # Required when command == pack
     packDirectory: '$(build.artifactStagingDirectory)' # Optional
     nobuild: false # Optional
-    versioningScheme: 'byBuildNumber' # Options: off, byPrereleaseNumber, byEnvVar, byBuildNumber
+    versioningScheme: 'byPrereleaseNumber' # Options: off, byPrereleaseNumber, byEnvVar, byBuildNumber
     #versionEnvVar: $(ver)# Required when versioningScheme == byEnvVar
-    #majorVersion: '1' # Required when versioningScheme == byPrereleaseNumber
-    #minorVersion: '0' # Required when versioningScheme == byPrereleaseNumber
-    #patchVersion: '0' # Required when versioningScheme == byPrereleaseNumber
+    majorVersion: '$(Major)' # Required when versioningScheme == byPrereleaseNumber
+    minorVersion: '$(Minor)' # Required when versioningScheme == byPrereleaseNumber
+    patchVersion: '$(Patch)' # Required when versioningScheme == byPrereleaseNumber
     #buildProperties: # Optional
     verbosityPack: 'detailed' # Options: quiet, minimal, normal, detailed, diagnostic
 
@@ -43,5 +45,5 @@ steps:
     command: 'push'
     nuGetFeedType: 'internal' # Required when command == push. Options: internal, external
     packagesToPush: '$(build.artifactStagingDirectory)/*.nupkg' # Required when command == push
-    publishVstsFeed: https://redpulsetek.pkgs.visualstudio.com/_packaging/L2RPacketLogger@Prerelease/nuget/v3/index.json # Required when command == push && NuGetFeedType == internal
+    publishVstsFeed: 'https://redpulsetek.pkgs.visualstudio.com/_packaging/L2RPacketLogger@Prerelease/nuget/v3/index.json' # Required when command == push && NuGetFeedType == internal
     #publishFeedCredentials: # Required when command == push && NuGetFeedType == external
