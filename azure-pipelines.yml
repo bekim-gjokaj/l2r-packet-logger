@@ -45,5 +45,5 @@ steps:
     command: 'push'
     nuGetFeedType: 'internal' # Required when command == push. Options: internal, external
     packagesToPush: '$(build.artifactStagingDirectory)/*.nupkg' # Required when command == push
-    publishVstsFeed: 'https://redpulsetek.pkgs.visualstudio.com' # Required when command == push && NuGetFeedType == internal
+    publishVstsFeed: 'L2RPacketLogger@Prerelease' # Required when command == push && NuGetFeedType == internal
     #publishFeedCredentials: # Required when command == push && NuGetFeedType == external
