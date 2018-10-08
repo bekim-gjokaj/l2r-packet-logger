@@ -2,7 +2,7 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Build ASP.NET Core project using Azure Pipelines
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
-name: $(BuildDefinitionName)0.0.$(Rev:.r)
+name: $(BuildDefinitionName)0.0$(Rev:.r)
 pool:
   vmImage: 'Ubuntu 16.04'
   
@@ -11,11 +11,14 @@ variables:
   BUILD_BUILDNUMBER: 0.0.1
 
 steps:
+  displayName: 'dotnet build & publish'
 - script: |
     dotnet build --configuration $(buildConfiguration)
     dotnet publish --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
 - task: PublishBuildArtifacts@1
+  displayName: 'publish build artifacts'
 - task: DotNetCoreCLI@2
+  displayName: 'pack nuget package'
   inputs:
     command: 'pack'
     configuration: 'release'
@@ -33,6 +36,7 @@ steps:
 # .NET Core
 # Push NuGet packages.
 - task: DotNetCoreCLI@2
+  displayName: 'publish nuget artifact'
   inputs:
     command: 'push'
     nuGetFeedType: 'internal' # Required when command == push. Options: internal, external
