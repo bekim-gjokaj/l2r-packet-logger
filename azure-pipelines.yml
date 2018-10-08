@@ -2,7 +2,7 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Build ASP.NET Core project using Azure Pipelines
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
-
+name: $(BuildDefinitionName)0.0.$(Rev:.r)
 pool:
   vmImage: 'Ubuntu 16.04'
   
@@ -37,5 +37,5 @@ steps:
     command: 'push'
     nuGetFeedType: 'internal' # Required when command == push. Options: internal, external
     packagesToPush: '$(build.artifactStagingDirectory)/*.nupkg' # Required when command == push
-    publishVstsFeed: # Required when command == push && NuGetFeedType == internal
-    publishFeedCredentials: # Required when command == push && NuGetFeedType == external
+    publishVstsFeed: https://redpulsetek.pkgs.visualstudio.com/_packaging/L2RPacketLogger@Prerelease/nuget/v3/index.json # Required when command == push && NuGetFeedType == internal
+    #publishFeedCredentials: # Required when command == push && NuGetFeedType == external
