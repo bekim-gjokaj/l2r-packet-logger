@@ -11,12 +11,15 @@ variables:
   BUILD_BUILDNUMBER: 0.0.1
 
 steps:
-  displayName: 'dotnet build & publish'
+
 - script: |
     dotnet build --configuration $(buildConfiguration)
     dotnet publish --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
+- displayName: 'dotnet build and publish'
+
 - task: PublishBuildArtifacts@1
   displayName: 'publish build artifacts'
+
 - task: DotNetCoreCLI@2
   displayName: 'pack nuget package'
   inputs:
