@@ -1,14 +1,40 @@
 # ASP.NET Core
 # Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+# Build ASP.NET Core project using Azure Pipelines
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
 pool:
   vmImage: 'Ubuntu 16.04'
-
+  
 variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- script: |
+    dotnet build --configuration $(buildConfiguration)
+    dotnet publish --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
+- task: PublishBuildArtifacts@1
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    configuration: 'release'
+    packagesToPack: '**/*.csproj' # Required when command == pack
+    packDirectory: '$(build.artifactStagingDirectory)' # Optional
+    nobuild: false # Optional
+    versioningScheme: 'byBuildNumber' # Options: off, byPrereleaseNumber, byEnvVar, byBuildNumber
+    #versionEnvVar: $(ver)# Required when versioningScheme == byEnvVar
+    #majorVersion: '1' # Required when versioningScheme == byPrereleaseNumber
+    #minorVersion: '0' # Required when versioningScheme == byPrereleaseNumber
+    #patchVersion: '0' # Required when versioningScheme == byPrereleaseNumber
+    #buildProperties: # Optional
+    verbosityPack: 'detailed' # Options: quiet, minimal, normal, detailed, diagnostic
+
+# .NET Core
+# Push NuGet packages.
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'push'
+    nuGetFeedType: 'internal' # Required when command == push. Options: internal, external
+    packagesToPush: '$(build.artifactStagingDirectory)/*.nupkg' # Required when command == push
+    publishVstsFeed: # Required when command == push && NuGetFeedType == internal
+    publishFeedCredentials: # Required when command == push && NuGetFeedType == external
