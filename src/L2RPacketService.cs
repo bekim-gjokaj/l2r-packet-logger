@@ -116,14 +116,8 @@ namespace Kamael.Packets
 
                 PacketFactory factory = new ConcretePacketFactory();
                 IL2RPacket pckt = factory.GetPacket(packetId, packetReader);
-                if (pckt != null)
-                {
-                    return pckt;
-                }
-                else
-                {
-                    return packetReader;
-                }
+                return pckt;
+                
                 //var director = new PacketDirector();
                 //var packet = director.Construct();
                 //packet.Parts.ForEach((part) => Console.WriteLine(part));
