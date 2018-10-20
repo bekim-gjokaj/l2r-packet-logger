@@ -120,9 +120,14 @@ namespace Kamael.Packets
 
                 PacketFactory factory = new ConcretePacketFactory();
                 IL2RPacket pckt = factory.GetPacket(packetId, packetReader);
-                Console.WriteLine("*** Packet Transformed: " + pckt.GetType() + " \r");
+                if (pckt != null)
+                {
+                    Console.WriteLine("*** Packet Transformed: " + pckt.GetType() + " \r");
 
-                return pckt;
+                    return pckt;
+                }
+                else
+                    return packetReader;
                 //var director = new PacketDirector();
                 //var packet = director.Construct();
                 //packet.Parts.ForEach((part) => Console.WriteLine(part));
@@ -133,7 +138,7 @@ namespace Kamael.Packets
             catch (Exception ex)
             {
                 //Console.WriteLine("Parse Packet Error: \r\n" + ex.ToString());
-                return null;
+                return packetReader;
             }
         }
 

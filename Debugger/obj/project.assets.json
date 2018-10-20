@@ -2021,7 +2021,7 @@
       ]
     },
     "Microsoft.Win32.Registry/4.0.0": {
-      "sha512": "q+eLtROUAQ3OxYA5mpQrgyFgzLQxIyrfT2eLpYX5IEPlHmIio2nh4F5bgOaQoGOV865kFKZZso9Oq9RlazvXtg==",
+      "sha512": "WDypG7e7YAshin+f4S1jaxbDprguZ4Q7Cpj216ewFqPAOl58IAL7ZtzDc5tSklO54G56h7jfx/w7KdKATdgxeA==",
       "type": "package",
       "path": "microsoft.win32.registry/4.0.0",
       "files": [
@@ -2590,7 +2590,7 @@
       ]
     },
     "System.Diagnostics.Process/4.1.0": {
-      "sha512": "mpVZ5bnlSs3tTeJ6jYyDJEIa6tavhAd88lxq1zbYhkkCu0Pno2+gHXcvZcoygq2d8JxW3gojXqNJMTAshduqZA==",
+      "sha512": "r6r+6Qmv1EBwbSm++66mgEjHFxDJtX/0SGBJ0gUjSJsQFeU9WlFrcsh2xUQXGsTbZyoOuCa3LtTI022YJMHStA==",
       "type": "package",
       "path": "system.diagnostics.process/4.1.0",
       "files": [
@@ -2683,7 +2683,7 @@
       ]
     },
     "System.Diagnostics.TraceSource/4.0.0": {
-      "sha512": "6WVCczFZKXwpWpzd/iJkYnsmWTSFFiU24Xx/YdHXBcu+nFI/ehTgeqdJQFbtRPzbrO3KtRNjvkhtj4t5/WwWsA==",
+      "sha512": "Fwz6gt54GZP+AU42vaMw0zyUEn28czSS0/4Tnf7ex10riTO3mhX3kOJro/o9a53FiVf/CIcKNu/drEiDNkgxzw==",
       "type": "package",
       "path": "system.diagnostics.tracesource/4.0.0",
       "files": [
@@ -5377,6 +5377,7 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {},
+        "https://redpulsetek.pkgs.visualstudio.com/_packaging/L2RPacketLogger/nuget/v3/index.json": {},
         "https://redpulsetek.pkgs.visualstudio.com/_packaging/L2RPacketLogger@Prerelease/nuget/v3/index.json": {}
       },
       "frameworks": {
@@ -5398,6 +5399,7 @@
       "netcoreapp2.1": {
         "dependencies": {
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
