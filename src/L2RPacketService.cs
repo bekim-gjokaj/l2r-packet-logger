@@ -132,7 +132,7 @@ namespace Kamael.Packets
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Parse Packet Error: \r\n" + ex.InnerException);
+                //Console.WriteLine("Parse Packet Error: \r\n" + ex.ToString());
                 return null;
             }
         }
@@ -335,7 +335,7 @@ namespace Kamael.Packets
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Incoming Data Error: \r\n" + ex.InnerException);
+                Console.WriteLine("Incoming Data Error: \r\n" + ex.ToString());
                 return null;
             }
         }
