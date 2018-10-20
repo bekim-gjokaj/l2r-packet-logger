@@ -103,7 +103,7 @@ namespace Kamael.Packets
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -118,8 +118,6 @@ namespace Kamael.Packets
                 IL2RPacket pckt = factory.GetPacket(packetId, packetReader);
                 if (pckt != null)
                 {
-                    Console.WriteLine("*** Packet Transformed: " + pckt.GetType() + " \r");
-
                     return pckt;
                 }
                 else
@@ -133,9 +131,9 @@ namespace Kamael.Packets
                 // Change the following for different Servers. INT/JAP/KOR/SEA
                 //HandlerINT.TypePacket(packetReader, packetId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Console.WriteLine("Parse Packet Error: \r\n" + ex.ToString());
+                Console.WriteLine("Parse Packet Error: \r\n" + ex.ToString());
                 return packetReader;
             }
         }
