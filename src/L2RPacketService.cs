@@ -324,6 +324,8 @@ namespace Kamael.Packets
 
                         DecryptPacket(packetData);
                         packet = ParsePacket(new L2RPacket(packetData));
+                        if (packet is null)
+                            continue;
                     }
                     else
                     {
