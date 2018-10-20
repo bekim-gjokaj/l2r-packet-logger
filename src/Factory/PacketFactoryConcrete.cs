@@ -3272,7 +3272,7 @@ namespace Kamael.Packets.Factory
                         break;
 
                     case 1569:      // 0x622 //return new PacketGuildMemberKillNotify";
-                        return new PacketClanMemberKillNotify((L2RPacket)packet);
+                        return new PacketPlayerKillNotify((L2RPacket)packet);
 
 
                     case 1570:      // 0x623
@@ -4328,9 +4328,7 @@ namespace Kamael.Packets.Factory
                                     //return new PacketPkPointNotify";
                         break;
 
-                    case 2127:      // 0x850
-                                    //return new PacketPlayerKilledNotify";
-                        break;
+                    case 2127:      return new PacketPlayerKillNotify((L2RPacket)packet); // 0x850
 
                     case 2128:      // 0x851
                                     //return new PacketPvpBattleStart";

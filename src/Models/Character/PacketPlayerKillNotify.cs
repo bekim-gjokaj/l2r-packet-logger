@@ -6,13 +6,13 @@ namespace Kamael.Packets.Clan
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    public class PacketClanMemberKillNotify : IL2RPacket
+    public class PacketPlayerKillNotify : IL2RPacket
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PacketClanMemberKillNotify" /> class.
+        /// Initializes a new instance of the <see cref="PacketPlayerKillNotify" /> class.
         /// </summary>
         /// <param name="packet">The packet.</param>
-        public PacketClanMemberKillNotify(L2RPacket packet)
+        public PacketPlayerKillNotify(L2RPacket packet)
         {
             using (StreamWriter fileStreamer = new StreamWriter(@"Output\GuildPvp.Txt", true))
             {
