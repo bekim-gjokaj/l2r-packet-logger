@@ -1,4 +1,5 @@
-﻿using Kamael.Packets.Chat;
+﻿using Kamael.Packets.Character;
+using Kamael.Packets.Chat;
 using Kamael.Packets.Clan;
 using System;
 
@@ -3271,9 +3272,8 @@ namespace Kamael.Packets.Factory
                                     //return new PacketGuildNameChangeNotify";
                         break;
 
-                    case 1569:      // 0x622 //return new PacketGuildMemberKillNotify";
-                        return new PacketPlayerKillNotify((L2RPacket)packet);
-
+                    case 1569:      return new PacketClanMemberKillNotify((L2RPacket)packet); // 0x622 //return new PacketGuildMemberKillNotify";
+                        
 
                     case 1570:      // 0x623
                                     //return new PacketGuildInfoNotify";

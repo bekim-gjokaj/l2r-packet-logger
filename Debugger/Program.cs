@@ -1,5 +1,6 @@
 ﻿using Kamael;
 using Kamael.Packets;
+using Kamael.Packets.Character;
 using Kamael.Packets.Clan;
 using PacketDotNet;
 using SharpPcap;
@@ -60,8 +61,9 @@ namespace Kamael.Packets
                 {
                     l2rPacket = L2RPacketService.AppendIncomingData(payloadData);
 
-                    if (l2rPacket is PacketClanMemberKillNotify)
+                    if (l2rPacket is PacketClanMemberKillNotify || l2rPacket is PacketPlayerKillNotify)
                     {
+                        Console.WriteLine("GOT ONE!!!!!");
                         //Task.Run(async () => await NotifyKill((PacketClanMemberKillNotify)l2rPacket));
                     }
                 }

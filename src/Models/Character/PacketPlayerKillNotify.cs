@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Kamael.Packets.Clan
+namespace Kamael.Packets.Character
 {
     /// <summary>
     ///

@@ -1,5 +1,4 @@
-﻿using Kamael.Packets.Clan;
-using Kamael.Packets.Factory;
+﻿using Kamael.Packets.Factory;
 using PacketDotNet;
 using SharpPcap;
 using System;
@@ -14,6 +13,7 @@ namespace Kamael.Packets
     public class L2RPacketService
     {
         public static ICaptureDevice Device { get; set; }
+
         // A few variable used throughout the program
         /// <summary>
         /// The encryption key
@@ -40,12 +40,12 @@ namespace Kamael.Packets
         /// </summary>
         /// <param name="packetReader">The packet reader.</param>
         /// <returns></returns>
-        /// 
+        ///
 
         public L2RPacketService()
         {
-            
         }
+
         public L2RPacketService(ICaptureDevice device)
         {
             Device = device;
@@ -57,7 +57,6 @@ namespace Kamael.Packets
             {
                 Device = device;
 
-
                 // Open the device for capturing
                 device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
 
@@ -81,10 +80,8 @@ namespace Kamael.Packets
             }
         }
 
-
         public async Task StartAsync(ICaptureDevice device)
         {
-
             try
             {
                 // Open the device for capturing
@@ -109,7 +106,6 @@ namespace Kamael.Packets
                 Console.WriteLine(ex.InnerException);
             }
         }
-
 
         public static IL2RPacket ParsePacket(L2RPacket packetReader)
         {
@@ -127,7 +123,9 @@ namespace Kamael.Packets
                     return pckt;
                 }
                 else
+                {
                     return packetReader;
+                }
                 //var director = new PacketDirector();
                 //var packet = director.Construct();
                 //packet.Parts.ForEach((part) => Console.WriteLine(part));
@@ -135,7 +133,7 @@ namespace Kamael.Packets
                 // Change the following for different Servers. INT/JAP/KOR/SEA
                 //HandlerINT.TypePacket(packetReader, packetId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Console.WriteLine("Parse Packet Error: \r\n" + ex.ToString());
                 return packetReader;
@@ -330,7 +328,9 @@ namespace Kamael.Packets
                         DecryptPacket(packetData);
                         packet = ParsePacket(new L2RPacket(packetData));
                         if (packet is null)
+                        {
                             continue;
+                        }
                     }
                     else
                     {

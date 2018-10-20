@@ -75,6 +75,7 @@ namespace Kamael.Packets.Clan
         /// The name of the player.
         /// </value>
         public string PlayerName { get; set; }
+
         /// <summary>
         /// Gets or sets the name of the player.
         /// </summary>
@@ -82,6 +83,7 @@ namespace Kamael.Packets.Clan
         /// The name of the player.
         /// </value>
         public int Region { get; set; }
+
         public byte Channel { get; set; }
     }
 }
