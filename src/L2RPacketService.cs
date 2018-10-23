@@ -272,7 +272,7 @@ namespace Kamael.Packets
                     // Decrypt and process incoming packets
                     if (srcPort == 12000)
                     {
-                        l2rPacket = AppendIncomingData(payloadData);
+                        l2rPacket = GetPacket(payloadData);
 
                         //if (l2rPacket is PacketClanMemberKillNotify)
                         //{
