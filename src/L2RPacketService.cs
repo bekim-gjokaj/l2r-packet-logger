@@ -299,7 +299,7 @@ namespace Kamael.Packets
         /// Appends the incoming data.
         /// </summary>
         /// <param name="payloadData">The payload data.</param>
-        public static IL2RPacket AppendIncomingData(byte[] payloadData)
+        public static IL2RPacket GetPacket(byte[] payloadData)
         {
             try
             {
