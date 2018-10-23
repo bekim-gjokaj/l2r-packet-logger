@@ -318,11 +318,8 @@ namespace Kamael.Packets
                         _incomingBuffer.RemoveRange(0, packetLength);
 
                         DecryptPacket(packetData);
-                        packet = ParsePacket(new L2RPacket(packetData));
-                        if (packet is null)
-                        {
-                            continue;
-                        }
+                        return ParsePacket(new L2RPacket(packetData));
+                        
                     }
                     else
                     {
