@@ -72,7 +72,7 @@ namespace Kamael.Packets
                                   device.Name, device.Description);
 
                 // Start the capturing process
-                device.StartCapture();
+                device.Capture();
             }
             catch (Exception ex)
             {
