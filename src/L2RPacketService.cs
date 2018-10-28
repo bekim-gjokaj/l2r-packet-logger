@@ -331,6 +331,7 @@ namespace Kamael.Packets
             }
             catch (Exception ex)
             {
+                _incomingBuffer.Clear();
                 Console.WriteLine("Incoming Data Error: \r\n" + ex.ToString());
                 return null;
             }
