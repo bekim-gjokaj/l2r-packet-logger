@@ -16,7 +16,7 @@ namespace Kamael.Packets.Clan
                 //Writes header for the PktGuildInfoReadresult
                 if (fileStream.BaseStream.Length < 1)
                 {
-                    fileStream.WriteLine("ID,Ranking,Name,Leader,Level,Exp,As Percentage, Reputation,Combat Power,Adena," +
+                    fileStream.WriteLineAsync("ID,Ranking,Name,Leader,Level,Exp,As Percentage, Reputation,Combat Power,Adena," +
                         "Proof of Blood,Red Star Stone,Members,Checked in Yesterday,Checked in Today," +
                         "Fortress Owned,Fortress Occupy Date,Wins,Draws,Losses,Require Approval," +
                         "Level Requirement,Intro,Notice");

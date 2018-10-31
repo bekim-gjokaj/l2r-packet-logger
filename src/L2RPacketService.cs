@@ -64,19 +64,19 @@ namespace Kamael.Packets
                 //string filter = "src port 12000 and len > 60";
                 device.Filter = L2RPacketService.filter;
 
-                Console.WriteLine
-                    ("\n-- The following filter will be applied: \"{0}\"",
-                    L2RPacketService.filter);
-                Console.WriteLine
-                    ("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
-                                  device.Name, device.Description);
+                Console.Out.WriteLineAsync
+                    (string.Format("\n-- The following filter will be applied: \"{0}\"",
+                    L2RPacketService.filter));
+                Console.Out.WriteLineAsync
+                    (string.Format("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
+                                  device.Name, device.Description));
 
                 // Start the capturing process
                 device.Capture();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
+                Console.Out.WriteLineAsync(ex.ToString());
             }
         }
 
@@ -91,19 +91,19 @@ namespace Kamael.Packets
                 //string filter = "src port 12000 and len > 60";
                 device.Filter = L2RPacketService.filter;
 
-                Console.WriteLine
-                    ("\n-- The following filter will be applied: \"{0}\"",
-                    L2RPacketService.filter);
-                Console.WriteLine
-                    ("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
-                                  device.Name, device.Description);
+                await Console.Out.WriteLineAsync
+                    (string.Format("\n-- The following filter will be applied: \"{0}\"",
+                    L2RPacketService.filter));
+                await Console.Out.WriteLineAsync
+                    (string.Format("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
+                                  device.Name, device.Description));
 
                 // Start the capturing process
                 device.StartCapture();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.Out.WriteLineAsync(ex.ToString());
             }
         }
 
@@ -120,14 +120,14 @@ namespace Kamael.Packets
                 
                 //var director = new PacketDirector();
                 //var packet = director.Construct();
-                //packet.Parts.ForEach((part) => Console.WriteLine(part));
+                //packet.Parts.ForEach((part) => Console.Out.WriteLineAsync(part));
 
                 // Change the following for different Servers. INT/JAP/KOR/SEA
                 //HandlerINT.TypePacket(packetReader, packetId);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Parse Packet Error: \r\n" + ex.ToString());
+                Console.Out.WriteLineAsync("Parse Packet Error: \r\n" + ex.ToString());
                 return packetReader;
             }
         }
@@ -145,7 +145,7 @@ namespace Kamael.Packets
             for (int i = 0; i < args.Length; i++)
             {
                 string value = args[i];
-                Console.WriteLine(value.Substring(0, 1));
+                Console.Out.WriteLineAsync(value.Substring(0, 1));
                 if (value.Substring(0, 1) != "-")
                 {
                     value = "h";
@@ -180,7 +180,7 @@ namespace Kamael.Packets
                         break;
 
                     default:
-                        Console.WriteLine("Incorrect arguement used when lauching program. /n/n");
+                        Console.Out.WriteLineAsync("Incorrect arguement used when lauching program. /n/n");
                         Help();
                         break;
                 }
@@ -212,7 +212,7 @@ namespace Kamael.Packets
             // If only one device found uses that device.
             if (devices.Count < 1)
             {
-                Console.WriteLine("No device found on this machine");
+                Console.Out.WriteLineAsync("No device found on this machine");
                 // Exits the program.
                 ExitProgram();
             }
@@ -226,11 +226,11 @@ namespace Kamael.Packets
                 defaultDevice = 0;
                 // Lists each of the devices that can be captured
                 // and then has you select the device you want to use.
-                Console.WriteLine("The following devices are available on this machine:");
-                Console.WriteLine("----------------------------------------------------\n");
+                Console.Out.WriteLineAsync("The following devices are available on this machine:");
+                Console.Out.WriteLineAsync("----------------------------------------------------\n");
                 foreach (ICaptureDevice dev in devices)
                 {
-                    Console.WriteLine("{0}) {1} {2}", defaultDevice, dev.Name, dev.Description);
+                    Console.Out.WriteLineAsync(string.Format("{0}) {1} {2}", defaultDevice, dev.Name, dev.Description));
                     defaultDevice++;
                 }
                 Console.Write("\n-- Please choose a device to capture: ");
@@ -265,9 +265,9 @@ namespace Kamael.Packets
                     int dstPort = tcpPacket.DestinationPort;
                     byte[] payloadData = tcpPacket.PayloadData;
 
-                    Console.WriteLine("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
+                    Console.Out.WriteLineAsync(string.Format("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
                     time.Hour, time.Minute, time.Second, time.Millisecond, len,
-                    srcIp, srcPort, dstIp, dstPort);
+                    srcIp, srcPort, dstIp, dstPort));
 
                     // Decrypt and process incoming packets
                     if (srcPort == 12000)
@@ -278,7 +278,7 @@ namespace Kamael.Packets
                         //{
                         //    .Go().GetAwaiter().OnCompleted(() =>
                         //     {
-                        //         Console.WriteLine("finished");
+                        //         Console.Out.WriteLineAsync("finished");
                         //     });
                         //}
                     }
@@ -286,7 +286,7 @@ namespace Kamael.Packets
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Parser Error: \r\n" + ex.InnerException);
+                Console.Out.WriteLineAsync("Parser Error: \r\n" + ex.InnerException);
             }
         }
 
@@ -332,7 +332,7 @@ namespace Kamael.Packets
             catch (Exception ex)
             {
                 _incomingBuffer.Clear();
-                Console.WriteLine("Incoming Data Error: \r\n" + ex.ToString());
+                Console.Out.WriteLineAsync("Incoming Data Error: \r\n" + ex.ToString());
                 return null;
             }
         }
@@ -354,16 +354,16 @@ namespace Kamael.Packets
         /// </summary>
         public static void Help()
         {
-            Console.WriteLine("\nHelp\n");
-            Console.WriteLine("Correct usage: L2RPacketReader.exe -(option) (value)");
-            Console.WriteLine("\nStandalone Options\n");
-            Console.WriteLine("-h: Displays this document.");
-            Console.WriteLine("-d: Saves Data files between executions.");
-            Console.WriteLine("\nOptions That Require Values\n");
-            Console.WriteLine("-i #: Sets which device to listen for packets to capture.");
-            Console.WriteLine("-f \"filter\": Sets a custom filter for the packets using winPCap's filtering.");
-            Console.WriteLine("               default filter value is \"port 12000 and len > 60\"");
-            Console.WriteLine("-t #: Sets a custom timeout value. Default value is 1000.\n\n");
+            Console.Out.WriteLineAsync("\nHelp\n");
+            Console.Out.WriteLineAsync("Correct usage: L2RPacketReader.exe -(option) (value)");
+            Console.Out.WriteLineAsync("\nStandalone Options\n");
+            Console.Out.WriteLineAsync("-h: Displays this document.");
+            Console.Out.WriteLineAsync("-d: Saves Data files between executions.");
+            Console.Out.WriteLineAsync("\nOptions That Require Values\n");
+            Console.Out.WriteLineAsync("-i #: Sets which device to listen for packets to capture.");
+            Console.Out.WriteLineAsync("-f \"filter\": Sets a custom filter for the packets using winPCap's filtering.");
+            Console.Out.WriteLineAsync("               default filter value is \"port 12000 and len > 60\"");
+            Console.Out.WriteLineAsync("-t #: Sets a custom timeout value. Default value is 1000.\n\n");
             ExitProgram();
         }
 

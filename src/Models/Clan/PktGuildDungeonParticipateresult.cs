@@ -63,21 +63,21 @@ namespace Kamael.Packets.Clan
                 uint unk9 = packet.ReadUInt32();
 
                 //Write
-                fileStream.WriteLine("Time: " + Time);
-                fileStream.WriteLine("PlayerCount: " + PlayerCount);
+                fileStream.WriteLineAsync("Time: " + Time);
+                fileStream.WriteLineAsync("PlayerCount: " + PlayerCount);
 
-                fileStream.WriteLine("\nItem ID, Item Count");
+                fileStream.WriteLineAsync("\nItem ID, Item Count");
                 for (int l = 0; l < itemCount; l++)
                 {
-                    fileStream.WriteLine(ItemID[l] + "," + ItemCount[l]);
+                    fileStream.WriteLineAsync(ItemID[l] + "," + ItemCount[l]);
                 }
 
-                fileStream.WriteLine("\nPlayer ID,Name,Damage");
+                fileStream.WriteLineAsync("\nPlayer ID,Name,Damage");
                 for (int l = 0; l < PlayerCount; l++)
                 {
-                    fileStream.WriteLine(PlayerID[l] + "," + Name[l] + "," + Damage[l] + "%");
+                    fileStream.WriteLineAsync(PlayerID[l] + "," + Name[l] + "," + Damage[l] + "%");
                 }
-                fileStream.WriteLine("\n\n");
+                fileStream.WriteLineAsync("\n\n");
             }
         }
     }

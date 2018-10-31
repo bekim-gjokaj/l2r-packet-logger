@@ -24,12 +24,12 @@ namespace Kamael.Packets.Clan
                 MemberCount = packet.ReadUInt16();
 
                 //Writes header for the PktGuildMemberListReadresult
-                fileStream.WriteLine("Clan ID,Name,Member Count\n" + ClanID + "," +
+                fileStream.WriteLineAsync("Clan ID,Name,Member Count\n" + ClanID + "," +
                     /* The following is a formula for spreadsheets that will look up the clan name from the DetailedGuildInfo
                      * output if both are imported into the same spreadsheet. It likely should be removed at a later date.*/
                     "\"=VLOOKUP(OFFSET(INDIRECT(ADDRESS(ROW(), COLUMN())),0,-1),DetailedGuildInfo!A:C,3,FALSE)\","
                     + MemberCount + "\n");
-                fileStream.WriteLine("Player ID," + "Player Name," + "Level," + "Combat Power," +
+                fileStream.WriteLineAsync("Player ID," + "Player Name," + "Level," + "Combat Power," +
                     "Role," + "Class," + "Offline," + "Contribution," + "Total Contributions," +
                     "Checked in," + "Rewards Count," + "World," + "Introduction");
 
@@ -58,11 +58,11 @@ namespace Kamael.Packets.Clan
                 Introduction = packet.ReadString();
                 //    packet.Skip(1);
 
-                //    fileStream.WriteLine(PlayerID + "," + PlayerName + "," + Level + "," + PlayerCP + "," +
+                //    fileStream.WriteLineAsync(PlayerID + "," + PlayerName + "," + Level + "," + PlayerCP + "," +
                 //        ClanRole + "," + PlayerClass + "," + Offline + "," + Contribution + "," + TotalContribution + ", " +
                 //        Checkin + "," + RewardCount + "," + WorldID + "," + Introduction);
                 //}
-                //fileStream.WriteLine("\n\n");
+                //fileStream.WriteLineAsync("\n\n");
             };
         }
 

@@ -12,7 +12,7 @@ namespace Kamael.Packets.Clan
             {
                 if (fileStream2.BaseStream.Length < 1)
                 {
-                    fileStream.WriteLine("Time,Name,Amount,Item");
+                    fileStream.WriteLineAsync("Time,Name,Amount,Item");
                 }
 
                 packet.Skip(2);
@@ -32,10 +32,10 @@ namespace Kamael.Packets.Clan
 
                     if (GroupType == 2)
                     {
-                        fileStream.WriteLine(dTime + ": " + Name + " - " + ResultText);
-                        fileStream2.WriteLine(dTime + "," + Name + "," + Text2 + "," + ResultTextSimple);
+                        fileStream.WriteLineAsync(dTime + ": " + Name + " - " + ResultText);
+                        fileStream2.WriteLineAsync(dTime + "," + Name + "," + Text2 + "," + ResultTextSimple);
                     }
-                    fileStream3.WriteLine(dTime + ": " + Name + " - " + ResultText);
+                    fileStream3.WriteLineAsync(dTime + ": " + Name + " - " + ResultText);
                 }
             }
         }

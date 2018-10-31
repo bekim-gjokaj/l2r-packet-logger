@@ -6608,7 +6608,7 @@ namespace Kamael.Packets.Factory
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Case Statement Error: \r\n" + ex.ToString());
+                Console.Out.WriteLineAsync("Case Statement Error: \r\n" + ex.ToString());
                 return null;
             }
         }

@@ -35,8 +35,8 @@ namespace Kamael.Packets.Parser.Parsers
                 packet.Skip(2);
 
                 ushort TotalCodex = packet.ReadUInt16();
-                fileStream.WriteLine("Codex Entries: " + TotalCodex);
-                fileStream.WriteLine("\nCodexID,Unk1,Level,Cores");
+                fileStream.WriteLineAsync("Codex Entries: " + TotalCodex);
+                fileStream.WriteLineAsync("\nCodexID,Unk1,Level,Cores");
 
                 for (int j = 0; j < TotalCodex; j++)
                 {
@@ -44,11 +44,11 @@ namespace Kamael.Packets.Parser.Parsers
                     ushort Cores = packet.ReadUInt16();
                     ushort Level = packet.ReadUInt16();
                     ushort Unk1 = packet.ReadUInt16();
-                    fileStream.WriteLine(CodexID + "," + Cores + "," + Level + "," + Unk1);
+                    fileStream.WriteLineAsync(CodexID + "," + Cores + "," + Level + "," + Unk1);
                 }
 
                 ushort TotalCodexGroup = packet.ReadUInt16();
-                fileStream.WriteLine("Codex Pages: " + TotalCodexGroup);
+                fileStream.WriteLineAsync("Codex Pages: " + TotalCodexGroup);
                 for (int j = 0; j < TotalCodexGroup; j++)
                 {
                     ushort Unk1 = packet.ReadUInt16();

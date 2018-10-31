@@ -17,7 +17,7 @@ namespace Kamael.Packets.Clan
         {
             using (StreamWriter stm = new StreamWriter(@"Output\QuestList.csv", true))
             {
-                stm.WriteLine("QuestId,State,PlayerId,Player,Rank,CompletedAt");
+                stm.WriteLineAsync("QuestId,State,PlayerId,Player,Rank,CompletedAt");
 
                 packet.Skip(2);
 
@@ -36,7 +36,7 @@ namespace Kamael.Packets.Clan
                     string rank = CSV.guildMemberGrade.guildMemberGradeName(packet.ReadByte());
                     DateTime completedTime = DateTime.Now;//packet.ReadDate();
 
-                    stm.WriteLine(questId + "," + state + "," + playerId + "," + player + "," + rank + "," + completedTime);
+                    stm.WriteLineAsync(questId + "," + state + "," + playerId + "," + player + "," + rank + "," + completedTime);
                 }
             }
         }

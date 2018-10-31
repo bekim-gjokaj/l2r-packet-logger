@@ -22,7 +22,7 @@ namespace Kamael.Packets.Parser.Parsers
 
                 if (fileStream.BaseStream.Length < 1)
                 {
-                    fileStream.WriteLine("Ranking,Name,Leader,Level,Exp,Reputation,Members,ClanCP,LevelReq,Closed,Intro");
+                    fileStream.WriteLineAsync("Ranking,Name,Leader,Level,Exp,Reputation,Members,ClanCP,LevelReq,Closed,Intro");
                 }
 
                 for (int j = 0; j < NumberofGuilds; j++)
@@ -50,7 +50,7 @@ namespace Kamael.Packets.Parser.Parsers
                     Unk0 = packet.ReadUInt64();
                     Spacer = packet.ReadByte();
 
-                    fileStream.WriteLine(Ranking + "," + Name + "," + Leader + "," + Level + "," +
+                    fileStream.WriteLineAsync(Ranking + "," + Name + "," + Leader + "," + Level + "," +
                         Exp + "," + Reputation + "," + Members + "," + ClanCP + "," + "," + LevelReq + "," + Closed + ",\"" + Intro + "\"");
                 }
             }
