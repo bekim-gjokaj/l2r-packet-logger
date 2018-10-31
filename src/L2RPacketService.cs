@@ -265,14 +265,14 @@ namespace Kamael.Packets
                     int dstPort = tcpPacket.DestinationPort;
                     byte[] payloadData = tcpPacket.PayloadData;
 
-                    Console.Out.WriteLineAsync(string.Format("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
-                    time.Hour, time.Minute, time.Second, time.Millisecond, len,
-                    srcIp, srcPort, dstIp, dstPort));
+                    //Console.Out.WriteLineAsync(string.Format("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
+                    //time.Hour, time.Minute, time.Second, time.Millisecond, len,
+                    //srcIp, srcPort, dstIp, dstPort));
 
                     // Decrypt and process incoming packets
                     if (srcPort == 12000)
                     {
-                        l2rPacket = GetPacket(payloadData);
+                        l2rPacket = GetPacket(payloadData).GetAwaiter().GetResult();;
 
                         //if (l2rPacket is PacketClanMemberKillNotify)
                         //{
@@ -299,7 +299,7 @@ namespace Kamael.Packets
         /// Appends the incoming data.
         /// </summary>
         /// <param name="payloadData">The payload data.</param>
-        public static IL2RPacket GetPacket(byte[] payloadData)
+        public static async Task<IL2RPacket> GetPacket(byte[] payloadData)
         {
             try
             {
@@ -332,7 +332,7 @@ namespace Kamael.Packets
             catch (Exception ex)
             {
                 _incomingBuffer.Clear();
-                Console.Out.WriteLineAsync("Incoming Data Error: \r\n" + ex.ToString());
+                await Console.Out.WriteLineAsync("Incoming Data Error: \r\n" + ex.ToString());
                 return null;
             }
         }

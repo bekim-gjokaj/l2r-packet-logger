@@ -59,7 +59,7 @@ namespace Kamael.Packets
                 // Decrypt and process incoming packets
                 if (srcPort == 12000)
                 {
-                    l2rPacket = L2RPacketService.GetPacket(payloadData);
+                    l2rPacket = L2RPacketService.GetPacket(payloadData).GetAwaiter().GetResult();
 
                     if (l2rPacket is PacketClanMemberKillNotify || l2rPacket is PacketPlayerKillNotify)
                     {
