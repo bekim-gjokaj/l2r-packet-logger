@@ -53,6 +53,16 @@ namespace Kamael.Packets.Clan
                     case "332800":
                         region = "Extraction Pit";
                         break;
+                    case "5452":
+                        region = "Dragons Crater";
+                        break;
+                    case "5427":
+                        region = "Slaughter Site";
+                        break;
+                    case "5350":
+                        region = "Ivory Tower Catacomb Laboratory";
+                        break;
+
                 }
 
             }
