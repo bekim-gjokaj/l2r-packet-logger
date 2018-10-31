@@ -37,7 +37,7 @@ namespace Kamael.Packets.Character
         {
 
             var tmpRegion = Region.ToString();
-            var regionLen = tmpRegion.Length - 3;
+            var regionLen = tmpRegion.Length - 1;
 
             string region = "";
             string chan = "";
