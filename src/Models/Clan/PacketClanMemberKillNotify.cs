@@ -35,12 +35,27 @@ namespace Kamael.Packets.Clan
 
         private KeyValuePair<string,string> GetRegionByCode(Int32 Region)
         {
-            
+
 
             var tmpRegion = Region.ToString();
             var regionLen = tmpRegion.Length - 3;
-            var region = tmpRegion.Substring(0, regionLen);
-            var chan = tmpRegion.Substring(regionLen + 1, 2);
+
+            string region = "";
+            string chan = "";
+
+            if (regionLen > 0 && regionLen > 3)
+            {
+                region = tmpRegion.Substring(0, regionLen);
+                chan = tmpRegion.Substring(regionLen - 1, 1);
+
+                switch (region)
+                {
+                    case "332800":
+                        region = "Extraction Pit";
+                        break;
+                }
+
+            }
 
             return new KeyValuePair<string, string>(region, chan);
 

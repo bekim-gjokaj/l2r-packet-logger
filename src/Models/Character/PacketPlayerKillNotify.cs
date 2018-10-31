@@ -45,7 +45,15 @@ namespace Kamael.Packets.Character
             if (regionLen > 0 && regionLen > 3)
             {
                 region = tmpRegion.Substring(0, regionLen);
-                chan = tmpRegion.Substring(regionLen + 1, 2);
+                chan = tmpRegion.Substring(regionLen - 1, 1);
+
+                switch (region)
+                {
+                    case "332800":
+                        region = "Extraction Pit";
+                        break;
+                }
+
             }
 
             return new KeyValuePair<string, string>(region, chan);
