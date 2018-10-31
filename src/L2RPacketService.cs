@@ -33,7 +33,7 @@ namespace Kamael.Packets
         /// <summary>
         /// The default device
         /// </summary>
-        public static int defaultDevice = 3;
+        public static int defaultDevice = 0;
 
         /// <summary>
         /// Parses the packet.
@@ -112,7 +112,7 @@ namespace Kamael.Packets
             try
             {
                 ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
-                Console.WriteLine("-Packet ID: " + packetId + "\r");
+                Console.Out.WriteLineAsync("-Packet ID: " + packetId + "\r");
 
                 PacketFactory factory = new ConcretePacketFactory();
                 IL2RPacket pckt = factory.GetPacket(packetId, packetReader);

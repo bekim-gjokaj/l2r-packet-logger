@@ -21,6 +21,17 @@ namespace Kamael.Packets.Factory
                 switch (PacketID)
                 {
 
+                    case 1569: return new PacketClanMemberKillNotify((L2RPacket)packet); // 0x622 //return new PacketGuildMemberKillNotify";
+
+                    case 2127: return new PacketPlayerKillNotify((L2RPacket)packet); // 0x850
+
+
+                    case 774:  return new PacketChatGuildListReadResult((L2RPacket)packet);     // 0x307//return new PacketChatGuildListReadResult";
+                    case 776: return new PacketChatGuildWriteResult(packet);      // 0x309 //return new PacketChatGuildWriteResult";
+                    case 779:  return new PacketChatGuildWriteResult(packet);     // 0x30C//return new PacketChatGuildMessageReadResult";
+
+
+
                     case 0: break;//return new PacketVersion(packet);    // 0x1 //return new PacketVersion";
                     case 1: break;//return PacketVersionResult(packet);    // 0x2 //return new PacketVersionResult";
 
@@ -1204,23 +1215,16 @@ namespace Kamael.Packets.Factory
                                     //return new PacketChatGuildListRead";
                         break;
 
-                    case 774:       // 0x307//return new PacketChatGuildListReadResult";
-                        return new PacketChatGuildListReadResult((L2RPacket)packet);
 
                     case 775:       // 0x308
                                     //return new PacketChatGuildWrite";
                         break;
 
-                    case 776:
-                        return new PacketChatGuildWriteResult(packet);      // 0x309 //return new PacketChatGuildWriteResult";
                     case 777:       // 0x30A//return new PacketChatGuildWriteNotify";
                         break;// return new PacketChatGuildWriteNotify(packet);
 
                     case 778:       // 0x30B //return new PacketChatGuildMessageRead";
                         break;// return new PacketChatGuildMessageRead(packet);
-
-                    case 779:       // 0x30C//return new PacketChatGuildMessageReadResult";
-                        return new PacketChatGuildWriteResult(packet);
 
                     case 780:       // 0x30D
                                     //return new PacketChatSimpleRead";
@@ -3272,9 +3276,6 @@ namespace Kamael.Packets.Factory
                                     //return new PacketGuildNameChangeNotify";
                         break;
 
-                    case 1569:      return new PacketClanMemberKillNotify((L2RPacket)packet); // 0x622 //return new PacketGuildMemberKillNotify";
-                        
-
                     case 1570:      // 0x623
                                     //return new PacketGuildInfoNotify";
                         break;
@@ -4327,8 +4328,6 @@ namespace Kamael.Packets.Factory
                     case 2126:      // 0x84F
                                     //return new PacketPkPointNotify";
                         break;
-
-                    case 2127:      return new PacketPlayerKillNotify((L2RPacket)packet); // 0x850
 
                     case 2128:      // 0x851
                                     //return new PacketPvpBattleStart";
