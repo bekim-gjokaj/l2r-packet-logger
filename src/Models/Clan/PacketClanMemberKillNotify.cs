@@ -40,7 +40,7 @@ namespace Kamael.Packets.Clan
             var tmpRegion = Region.ToString();
             var regionLen = tmpRegion.Length - 3;
             var region = tmpRegion.Substring(0, regionLen);
-            var chan = tmpRegion.Substring(regionLen + 1, 3);
+            var chan = tmpRegion.Substring(regionLen + 1, 2);
 
             return new KeyValuePair<string, string>(region, chan);
 
