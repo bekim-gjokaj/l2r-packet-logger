@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Kamael.Packets.Clan
 {
@@ -20,13 +22,31 @@ namespace Kamael.Packets.Clan
                 PlayerName = packet.ReadString();
                 Clan2Name = packet.ReadString();
                 Player2Name = packet.ReadString();
-                Region = packet.ReadInt32();
-                Channel = packet.ReadByte();
+                var region = GetRegionByCode(packet.ReadInt32());
+                Region = region.Key;
+                Channel = region.Value;
+                var Unknown = packet.ReadByte();
 
                 // Unknown Int32, Unknown byte
-                fileStreamer.WriteLine(PlayerName + "(" + ClanName + ") Killed " + Player2Name + "(" + Clan2Name + ").");
+                fileStreamer.WriteLineAsync(PlayerName + "(" + ClanName + ") Killed " + Player2Name + "(" + Clan2Name + ").");
             }
         }
+
+
+        private KeyValuePair<string,string> GetRegionByCode(Int32 Region)
+        {
+            
+
+            var tmpRegion = Region.ToString();
+            var regionLen = tmpRegion.Length - 3;
+            var region = tmpRegion.Substring(0, regionLen);
+            var chan = tmpRegion.Substring(regionLen + 1, 3);
+
+            return new KeyValuePair<string, string>(region, chan);
+
+        }
+
+
 
         /// <summary>
         /// Gets or sets the bytes.
@@ -82,8 +102,8 @@ namespace Kamael.Packets.Clan
         /// <value>
         /// The name of the player.
         /// </value>
-        public int Region { get; set; }
+        public string Region { get; set; }
 
-        public byte Channel { get; set; }
+        public string Channel { get; set; }
     }
 }

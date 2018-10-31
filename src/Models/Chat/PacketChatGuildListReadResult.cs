@@ -24,7 +24,7 @@ namespace Kamael.Packets.Chat
             {
                 if (stm.BaseStream.Length < 1)
                 {
-                    stm.WriteLine("Time,Name,Message,type,unk1,unk2,unk3,unk4,unk5,unk6");
+                    stm.WriteLineAsync("Time,Name,Message,type,unk1,unk2,unk3,unk4,unk5,unk6");
                 }
 
                 packet.Skip(11);
@@ -44,7 +44,7 @@ namespace Kamael.Packets.Chat
                     packet.Skip(27);
                     unk5 = packet.ReadByte();
                     unk6 = packet.ReadByte();
-                    stm.WriteLine(MessageTime + "," + PlayerName + "," + Message + ",GuildRead," + unk1 + "," + unk2 + "," + unk3 + "," + unk4 + "," + unk5 + "," + unk6);
+                    stm.WriteLineAsync(MessageTime + "," + PlayerName + "," + Message + ",GuildRead," + unk1 + "," + unk2 + "," + unk3 + "," + unk4 + "," + unk5 + "," + unk6);
                 }
             }
         }
