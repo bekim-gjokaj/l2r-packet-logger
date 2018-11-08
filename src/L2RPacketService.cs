@@ -91,7 +91,7 @@ namespace Kamael.Packets
         private PacketArrivalEventHandler arrivalEventHandler;
         private CaptureStoppedEventHandler captureStoppedEventHandler;
         private ICaptureDevice device;
-        private Queue<PacketWrapper> packetStrings;
+        private Queue<IL2RPacket> packetQue;
 
         private int packetCount;
         private readonly BindingSource bs;
@@ -126,33 +126,36 @@ namespace Kamael.Packets
             }
 
 
-            packetStrings = new Queue<PacketWrapper>();
+            packetQue = new Queue<IL2RPacket>();
             //bs = new BindingSource();
             //dataGridView.DataSource = bs;
             LastStatisticsOutput = DateTime.Now;
 
-            // start the background thread
-            BackgroundThreadStop = false;
-            backgroundThread = new System.Threading.Thread(BackgroundThread);
-            backgroundThread.Start();
 
             // setup background capture
             arrivalEventHandler = new PacketArrivalEventHandler(device_OnPacketArrival);
             device.OnPacketArrival += arrivalEventHandler;
             captureStoppedEventHandler = new CaptureStoppedEventHandler(device_OnCaptureStopped);
             device.OnCaptureStopped += captureStoppedEventHandler;
-            device.Open();
 
+
+            // start the background thread
+            BackgroundThreadStop = false;
+            backgroundThread = new System.Threading.Thread(BackgroundThread);
+            backgroundThread.Start();
+
+            device.Open();
             //filter to capture only packets from L2R that have data
             //string filter = "src port 12000 and len > 60";
             device.Filter = filter;
-
             // force an initial statistics update
             captureStatistics = device.Statistics;
             UpdateCaptureStatistics();
 
+
             // start the background capture
             device.Capture();
+
 
             //// disable the stop icon since the capture has stopped
             //startStopToolStripButton.Image = global::WinformsExample.Properties.Resources.stop_icon_enabled;
@@ -191,81 +194,22 @@ namespace Kamael.Packets
 
         public void device_OnPacketArrival(object sender, CaptureEventArgs e)
         {
-            DateTime time = e.Packet.Timeval.Date;
-            int len = e.Packet.Data.Length;
-            IL2RPacket l2rPacket = null;
-
-            Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
-
-            TcpPacket tcpPacket = (PacketDotNet.TcpPacket)packet.Extract(typeof(PacketDotNet.TcpPacket));
-            if (tcpPacket != null)
+            // print out periodic statistics about this device
+            DateTime Now = DateTime.Now; // cache 'DateTime.Now' for minor reduction in cpu overhead
+            TimeSpan interval = Now - LastStatisticsOutput;
+            if (interval > LastStatisticsInterval)
             {
-                IPPacket ipPacket = (IPPacket)tcpPacket.ParentPacket;
-                System.Net.IPAddress srcIp = ipPacket.SourceAddress;
-                System.Net.IPAddress dstIp = ipPacket.DestinationAddress;
-                int srcPort = tcpPacket.SourcePort;
-                int dstPort = tcpPacket.DestinationPort;
-                byte[] payloadData = tcpPacket.PayloadData;
-
-                //Console.Out.WriteLineAsync(string.Format("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
-                //time.Hour, time.Minute, time.Second, time.Millisecond, len,
-                //srcIp, srcPort, dstIp, dstPort));
-
-                l2rPacket = GetPacket(payloadData);
+                Console.WriteLine("device_OnPacketArrival: " + e.Device.Statistics);
+                captureStatistics = e.Device.Statistics;
+                statisticsUiNeedsUpdate = true;
+                LastStatisticsOutput = Now;
             }
-        }
 
-        /// <summary>
-        /// Appends the incoming data.
-        /// </summary>
-        /// <param name="payloadData">The payload data.</param>
-        public IL2RPacket GetPacket(byte[] payloadData)
-        {
-            try
+            // lock QueueLock to prevent multiple threads accessing PacketQueue at
+            // the same time
+            lock (QueueLock)
             {
-                IL2RPacket packet = null;
-                _incomingBuffer.AddRange(payloadData);
-
-                // If the buffer contains any complete packets, process them
-                while (_incomingBuffer.Count >= 2)
-                {
-                    ushort packetLength = BitConverter.ToUInt16(_incomingBuffer.GetRange(0, 2).ToArray(), 0);
-                    if (_incomingBuffer.Count >= packetLength)
-                    {
-                        byte spacer = _incomingBuffer[2]; // skip 1 byte
-
-                        byte[] packetData = _incomingBuffer.GetRange(3, packetLength - 3).ToArray();
-                        _incomingBuffer.RemoveRange(0, packetLength);
-
-                        DecryptPacket(packetData);
-
-                        L2RPacket packetReader = new L2RPacket(packetData);
-                        ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
-                        Console.Out.WriteLineAsync("-Packet ID: " + packetId + "\r");
-
-                        PacketFactory factory = new ConcretePacketFactory();
-                        IL2RPacket pckt = factory.GetPacket(packetId, packetReader);
-
-                        //FIRE L2RPacketArrivalEvent
-                        L2RPacketArrivalEventArgs args = new L2RPacketArrivalEventArgs();
-                        args.Packet = pckt;
-                        OnL2RPacketArrival(args);
-
-                        return pckt;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                return packet;
-            }
-            catch (Exception ex)
-            {
-                _incomingBuffer.Clear();
-                Console.Out.WriteLineAsync("Incoming Data Error: \r\n" + ex.ToString());
-                return null;
+                PacketQueue.Add(e.Packet);
             }
         }
 
@@ -290,38 +234,6 @@ namespace Kamael.Packets
             }
         }
 
-        private IL2RPacket ProcessPackets(byte[] payloadData)
-        {
-            try
-            {
-                //L2RPacketService proceesses the incoming payload and translates it to a concrete class
-                IL2RPacket l2rPacket = GetPacket(payloadData);
-                //if (l2rPacket is PacketPlayerKillNotify)
-                //{
-                //    //NOTIFY KILL
-                //    //_killService.NotifyKill((PacketPlayerKillNotify)l2rPacket).Wait();
-
-                //}
-                //else if (l2rPacket is PacketClanMemberKillNotify)
-                //{
-                //    //NOTIFY KILL
-                //    _killService.NotifyKill((PacketClanMemberKillNotify)l2rPacket).Wait();
-
-                //}
-                //else if (l2rPacket is PacketChatGuildListReadResult && _config["clanchat:enabled"] == "true")
-                //{
-                //    //NOTIFY CLAN CHAT
-                //    UtilService.NotifyClanChat((PacketChatGuildListReadResult)l2rPacket).Wait();
-                //}
-
-                return l2rPacket;
-            }
-            catch (Exception ex)
-            {
-                Console.Out.WriteLineAsync("Process packet: " + ex.ToString());
-                return null;
-            }
-        }
 
         /// <summary>
         /// Checks for queued packets. If any exist it locks the QueueLock, saves a
@@ -372,35 +284,76 @@ namespace Kamael.Packets
                         //       to enormous sizes. Packets should be dropped in these
                         //       cases
 
-                        PacketWrapper packetWrapper = new PacketWrapper(packetCount, packet);
+                        try
+                        {
+                            PacketWrapper packetWrapper = new PacketWrapper(packetCount, packet);
 
-                        //this.BeginInvoke(new MethodInvoker(delegate
-                        //{
-                        //    packetStrings.Enqueue(packetWrapper);
-                        //}
-                        //));
+                            Packet parsepacket = PacketDotNet.Packet.ParsePacket(packet.LinkLayerType, packet.Data);
 
-                        packetCount++;
+                            TcpPacket tcpPacket = (PacketDotNet.TcpPacket)parsepacket.Extract(typeof(PacketDotNet.TcpPacket));
+                            if (tcpPacket != null)
+                            {
 
-                        DateTime time = packet.Timeval.Date;
-                        int len = packet.Data.Length;
-                        Console.WriteLine("BackgroundThread: {0}:{1}:{2},{3} Len={4}",
-                            time.Hour, time.Minute, time.Second, time.Millisecond, len);
+                                byte[] packetData = tcpPacket.PayloadData;
+
+                                if (packetData != null)
+                                {
+                                    DecryptPacket(packetData);
+
+                                    L2RPacket packetReader = new L2RPacket(packetData);
+                                    ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
+                                    Console.Out.WriteLineAsync("-Packet ID: " + packetId + "\r");
+
+                                    PacketFactory factory = new ConcretePacketFactory();
+                                    IL2RPacket l2rpckt = factory.GetPacket(packetId, packetReader);
+
+                                    //FIRE L2RPacketArrivalEvent
+                                    L2RPacketArrivalEventArgs args = new L2RPacketArrivalEventArgs
+                                    {
+                                        Packet = l2rpckt
+                                    };
+                                    OnL2RPacketArrival(args);
+
+
+                                    packetQue.Enqueue(l2rpckt);
+                                }
+
+                                packetCount++;
+
+                                DateTime time = packet.Timeval.Date;
+                                int len = packet.Data.Length;
+                                //Console.WriteLine("BackgroundThread: {0}:{1}:{2},{3} Len={4}",
+                                //    time.Hour, time.Minute, time.Second, time.Millisecond, len);
+
+                            }
+
+                            if (statisticsUiNeedsUpdate)
+                            {
+                                UpdateCaptureStatistics();
+                                statisticsUiNeedsUpdate = false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                            throw;
+                        }
+
                     }
 
                     //this.BeginInvoke(new MethodInvoker(delegate
                     //{
-                    //    //bs.DataSource = packetStrings.Reverse();
+                    //    //bs.DataSource = packetQue.Reverse();
                     //}
                     //));
 
-                    if (statisticsUiNeedsUpdate)
-                    {
-                        UpdateCaptureStatistics();
-                        statisticsUiNeedsUpdate = false;
-                    }
+
                 }
+
             }
+
+
+
         }
 
         private string UpdateCaptureStatistics()
@@ -412,7 +365,6 @@ namespace Kamael.Packets
 
             return str;
         }
-
         public class PacketWrapper
         {
             public RawCapture p;
