@@ -1,9 +1,9 @@
 ﻿using Kamael.Packets.Factory;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PacketDotNet;
 using SharpPcap;
 using System;
-using System.IO;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Kamael.Packets
 {
@@ -12,28 +12,28 @@ namespace Kamael.Packets
     /// </summary>
     public class L2RPacketService
     {
-        public static ICaptureDevice Device { get; set; }
+        public ICaptureDevice Device { get; set; }
 
         // A few variable used throughout the program
         /// <summary>
         /// The encryption key
         /// </summary>
-        public static byte[] EncryptionKey = { 0xA7, 0x84, 0x20, 0xD0, 0xC9, 0x78, 0xB3, 0x9A };
+        public byte[] EncryptionKey = { 0xA7, 0x84, 0x20, 0xD0, 0xC9, 0x78, 0xB3, 0x9A };
 
         /// <summary>
         /// The filter
         /// </summary>
-        public static string filter = "port 12000 and len > 60";
+        public string filter = "port 12000 and len > 60";
 
         /// <summary>
         /// The read timeout milliseconds
         /// </summary>
-        public static int readTimeoutMilliseconds = 1000;
+        public int readTimeoutMilliseconds = 1000;
 
         /// <summary>
         /// The default device
         /// </summary>
-        public static int defaultDevice = 0;
+        public int defaultDevice = 0;
 
         /// <summary>
         /// Parses the packet.
@@ -41,265 +41,185 @@ namespace Kamael.Packets
         /// <param name="packetReader">The packet reader.</param>
         /// <returns></returns>
         ///
-
-        public L2RPacketService()
-        {
-        }
-
-        public L2RPacketService(ICaptureDevice device)
-        {
-            Device = device;
-        }
-
-        public static void Start(ICaptureDevice device)
-        {
-            try
-            {
-                Device = device;
-
-                // Open the device for capturing
-                device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
-
-                //filter to capture only packets from L2R that have data
-                //string filter = "src port 12000 and len > 60";
-                device.Filter = L2RPacketService.filter;
-
-                Console.Out.WriteLineAsync
-                    (string.Format("\n-- The following filter will be applied: \"{0}\"",
-                    L2RPacketService.filter));
-                Console.Out.WriteLineAsync
-                    (string.Format("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
-                                  device.Name, device.Description));
-
-                // Start the capturing process
-                device.Capture();
-            }
-            catch (Exception ex)
-            {
-                Console.Out.WriteLineAsync(ex.ToString());
-            }
-        }
-
-        public async Task StartAsync(ICaptureDevice device)
-        {
-            try
-            {
-                // Open the device for capturing
-                device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
-
-                //filter to capture only packets from L2R that have data
-                //string filter = "src port 12000 and len > 60";
-                device.Filter = L2RPacketService.filter;
-
-                await Console.Out.WriteLineAsync
-                    (string.Format("\n-- The following filter will be applied: \"{0}\"",
-                    L2RPacketService.filter));
-                await Console.Out.WriteLineAsync
-                    (string.Format("-- Listening on {0} {1}. \n\n Hit 'Enter' to stop...\n\n",
-                                  device.Name, device.Description));
-
-                // Start the capturing process
-                device.StartCapture();
-            }
-            catch (Exception ex)
-            {
-                Console.Out.WriteLineAsync(ex.ToString());
-            }
-        }
-
-        public static IL2RPacket ParsePacket(L2RPacket packetReader)
-        {
-            try
-            {
-                ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
-                Console.Out.WriteLineAsync("-Packet ID: " + packetId + "\r");
-
-                PacketFactory factory = new ConcretePacketFactory();
-                IL2RPacket pckt = factory.GetPacket(packetId, packetReader);
-                return pckt;
-                
-                //var director = new PacketDirector();
-                //var packet = director.Construct();
-                //packet.Parts.ForEach((part) => Console.Out.WriteLineAsync(part));
-
-                // Change the following for different Servers. INT/JAP/KOR/SEA
-                //HandlerINT.TypePacket(packetReader, packetId);
-            }
-            catch (Exception ex)
-            {
-                Console.Out.WriteLineAsync("Parse Packet Error: \r\n" + ex.ToString());
-                return packetReader;
-            }
-        }
+        /// <summary>
+        /// When true the background thread will terminate
+        /// </summary>
+        /// <param name="args">
+        /// A <see cref="System.String"/>
+        /// </param>
+        private bool BackgroundThreadStop;
 
         /// <summary>
-        /// Initializations the specified arguments.
+        /// Object that is used to prevent two threads from accessing
+        /// PacketQueue at the same time
         /// </summary>
-        /// <param name="args">The arguments.</param>
-        /// <returns></returns>
-        public static int Initialization(string[] args)
-        {
-            int delData = 0;
-
-            // Sets optional values based on what arguement is used.
-            for (int i = 0; i < args.Length; i++)
-            {
-                string value = args[i];
-                Console.Out.WriteLineAsync(value.Substring(0, 1));
-                if (value.Substring(0, 1) != "-")
-                {
-                    value = "h";
-                }
-                else
-                {
-                    value = value.Substring(1, 1).ToLower();
-                }
-                switch (value)
-                {
-                    case "f":
-                        i++;
-                        filter = args[i];
-                        break;
-
-                    case "t":
-                        i++;
-                        readTimeoutMilliseconds = Convert.ToInt32(args[i]);
-                        break;
-
-                    case "i":
-                        i++;
-                        defaultDevice = Convert.ToInt32(args[i]);
-                        break;
-
-                    case "d":
-                        delData = 0;
-                        break;
-
-                    case "h":
-                        Help();
-                        break;
-
-                    default:
-                        Console.Out.WriteLineAsync("Incorrect arguement used when lauching program. /n/n");
-                        Help();
-                        break;
-                }
-            }
-
-            // Creates folders if they do not exist yet.
-            if (!Directory.Exists(@"Output\"))
-            {
-                Directory.CreateDirectory(@"Output\");
-            }
-
-            // Deletes old record files if it exists.
-            if (delData == 1)
-            {
-                foreach (string item in Directory.GetFiles(@"Output\", "*.csv"))
-                {
-                    File.Delete(item);
-                }
-
-                foreach (string item in Directory.GetFiles(@"Output\", "*.txt"))
-                {
-                    File.Delete(item);
-                }
-            }
-            /* Retrieve the device list */
-            CaptureDeviceList devices = CaptureDeviceList.Instance;
-
-            // Returns error if no devices found.
-            // If only one device found uses that device.
-            if (devices.Count < 1)
-            {
-                Console.Out.WriteLineAsync("No device found on this machine");
-                // Exits the program.
-                ExitProgram();
-            }
-            else if (devices.Count == 1)
-            {
-                defaultDevice = 0;
-            }
-
-            if (defaultDevice < 0)
-            {
-                defaultDevice = 0;
-                // Lists each of the devices that can be captured
-                // and then has you select the device you want to use.
-                Console.Out.WriteLineAsync("The following devices are available on this machine:");
-                Console.Out.WriteLineAsync("----------------------------------------------------\n");
-                foreach (ICaptureDevice dev in devices)
-                {
-                    Console.Out.WriteLineAsync(string.Format("{0}) {1} {2}", defaultDevice, dev.Name, dev.Description));
-                    defaultDevice++;
-                }
-                Console.Write("\n-- Please choose a device to capture: ");
-                defaultDevice = 0;
-            }
-            return defaultDevice;
-        }
+        /// <param name="args">
+        /// A <see cref="System.String"/>
+        /// </param>
+        private readonly object QueueLock = new object();
 
         /// <summary>
-        /// Prints the time, length, src ip, src port, dst ip and dst port
-        /// for each packet recieved then writes payload data to a file.
+        /// The queue that the callback thread puts packets in. Accessed by
+        /// the background thread when QueueLock is held
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="CaptureEventArgs"/> instance containing the event data.</param>
-        public static void PacketCapturer(object sender, CaptureEventArgs e)
-        {
-            try
-            {
-                DateTime time = e.Packet.Timeval.Date;
-                int len = e.Packet.Data.Length;
-                IL2RPacket l2rPacket = null;
+        private List<RawCapture> PacketQueue = new List<RawCapture>();
 
-                Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
+        /// <summary>
+        /// The last time PcapDevice.Statistics() was called on the active device.
+        /// Allow periodic display of device statistics
+        /// </summary>
+        /// <param name="args">
+        /// A <see cref="System.String"/>
+        /// </param>
+        private DateTime LastStatisticsOutput;
 
-                TcpPacket tcpPacket = (PacketDotNet.TcpPacket)packet.Extract(typeof(PacketDotNet.TcpPacket));
-                if (tcpPacket != null)
-                {
-                    IPPacket ipPacket = (IPPacket)tcpPacket.ParentPacket;
-                    System.Net.IPAddress srcIp = ipPacket.SourceAddress;
-                    System.Net.IPAddress dstIp = ipPacket.DestinationAddress;
-                    int srcPort = tcpPacket.SourcePort;
-                    int dstPort = tcpPacket.DestinationPort;
-                    byte[] payloadData = tcpPacket.PayloadData;
-
-                    //Console.Out.WriteLineAsync(string.Format("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
-                    //time.Hour, time.Minute, time.Second, time.Millisecond, len,
-                    //srcIp, srcPort, dstIp, dstPort));
-
-                    // Decrypt and process incoming packets
-                    if (srcPort == 12000)
-                    {
-                        l2rPacket = GetPacket(payloadData).GetAwaiter().GetResult();;
-
-                        //if (l2rPacket is PacketClanMemberKillNotify)
-                        //{
-                        //    .Go().GetAwaiter().OnCompleted(() =>
-                        //     {
-                        //         Console.Out.WriteLineAsync("finished");
-                        //     });
-                        //}
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Out.WriteLineAsync("Parser Error: \r\n" + ex.InnerException);
-            }
-        }
+        /// <summary>
+        /// Interval between PcapDevice.Statistics() output
+        /// </summary>
+        /// <param name="args">
+        /// A <see cref="System.String"/>
+        /// </param>
+        ///
 
         /// <summary>
         /// The incoming buffer
         /// </summary>
-        public static System.Collections.Generic.List<byte> _incomingBuffer = new System.Collections.Generic.List<byte>();
+        public System.Collections.Generic.List<byte> _incomingBuffer = new System.Collections.Generic.List<byte>();
+
+        private readonly TimeSpan LastStatisticsInterval = new TimeSpan(0, 0, 2);
+        private System.Threading.Thread backgroundThread;
+        private PacketArrivalEventHandler arrivalEventHandler;
+        private CaptureStoppedEventHandler captureStoppedEventHandler;
+        private ICaptureDevice device;
+        private Queue<PacketWrapper> packetStrings;
+
+        private int packetCount;
+        private readonly BindingSource bs;
+        private ICaptureStatistics captureStatistics;
+        private bool statisticsUiNeedsUpdate = false;
+
+        public event EventHandler<L2RPacketArrivalEventArgs> L2RPacketArrivalEvent;
+
+        //public delegate IL2RPacket L2RPacketEventArrival2(byte[] payloadData);
+
+        //Constructors
+        public L2RPacketService()
+        {
+        }
+
+        public L2RPacketService(ICaptureDevice Device)
+        {
+            device = Device;
+        }
+
+        public L2RPacketService(int itemIndex)
+        {
+            device = CaptureDeviceList.Instance[itemIndex];
+        }
+
+        public void StartCapture()
+        {
+            packetCount = 0;
+            if (device is null)
+            {
+                device = CaptureDeviceList.Instance[0];
+            }
+
+
+            packetStrings = new Queue<PacketWrapper>();
+            //bs = new BindingSource();
+            //dataGridView.DataSource = bs;
+            LastStatisticsOutput = DateTime.Now;
+
+            // start the background thread
+            BackgroundThreadStop = false;
+            backgroundThread = new System.Threading.Thread(BackgroundThread);
+            backgroundThread.Start();
+
+            // setup background capture
+            arrivalEventHandler = new PacketArrivalEventHandler(device_OnPacketArrival);
+            device.OnPacketArrival += arrivalEventHandler;
+            captureStoppedEventHandler = new CaptureStoppedEventHandler(device_OnCaptureStopped);
+            device.OnCaptureStopped += captureStoppedEventHandler;
+            device.Open();
+
+            //filter to capture only packets from L2R that have data
+            //string filter = "src port 12000 and len > 60";
+            device.Filter = filter;
+
+            // force an initial statistics update
+            captureStatistics = device.Statistics;
+            UpdateCaptureStatistics();
+
+            // start the background capture
+            device.Capture();
+
+            //// disable the stop icon since the capture has stopped
+            //startStopToolStripButton.Image = global::WinformsExample.Properties.Resources.stop_icon_enabled;
+            //startStopToolStripButton.ToolTipText = "Stop capture";
+        }
+
+        private void Shutdown()
+        {
+            if (device != null)
+            {
+                device.StopCapture();
+                device.Close();
+                device.OnPacketArrival -= arrivalEventHandler;
+                device.OnCaptureStopped -= captureStoppedEventHandler;
+                device = null;
+
+                // ask the background thread to shut down
+                BackgroundThreadStop = true;
+
+                // wait for the background thread to terminate
+                backgroundThread.Join();
+
+                //// switch the icon back to the play icon
+                //startStopToolStripButton.Image = global::WinformsExample.Properties.Resources.play_icon_enabled;
+                //startStopToolStripButton.ToolTipText = "Select device to capture from";
+            }
+        }
+
+        private void device_OnCaptureStopped(object sender, CaptureStoppedEventStatus status)
+        {
+            if (status != CaptureStoppedEventStatus.CompletedWithoutError)
+            {
+                //MessageBox.Show("Error stopping capture", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void device_OnPacketArrival(object sender, CaptureEventArgs e)
+        {
+            DateTime time = e.Packet.Timeval.Date;
+            int len = e.Packet.Data.Length;
+            IL2RPacket l2rPacket = null;
+
+            Packet packet = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
+
+            TcpPacket tcpPacket = (PacketDotNet.TcpPacket)packet.Extract(typeof(PacketDotNet.TcpPacket));
+            if (tcpPacket != null)
+            {
+                IPPacket ipPacket = (IPPacket)tcpPacket.ParentPacket;
+                System.Net.IPAddress srcIp = ipPacket.SourceAddress;
+                System.Net.IPAddress dstIp = ipPacket.DestinationAddress;
+                int srcPort = tcpPacket.SourcePort;
+                int dstPort = tcpPacket.DestinationPort;
+                byte[] payloadData = tcpPacket.PayloadData;
+
+                //Console.Out.WriteLineAsync(string.Format("{0}:{1}:{2}.{3}\tLen={4}\t{5}:{6} -> {7}:{8}",
+                //time.Hour, time.Minute, time.Second, time.Millisecond, len,
+                //srcIp, srcPort, dstIp, dstPort));
+
+                l2rPacket = GetPacket(payloadData);
+            }
+        }
 
         /// <summary>
         /// Appends the incoming data.
         /// </summary>
         /// <param name="payloadData">The payload data.</param>
-        public static async Task<IL2RPacket> GetPacket(byte[] payloadData)
+        public IL2RPacket GetPacket(byte[] payloadData)
         {
             try
             {
@@ -317,13 +237,31 @@ namespace Kamael.Packets
                         byte[] packetData = _incomingBuffer.GetRange(3, packetLength - 3).ToArray();
                         _incomingBuffer.RemoveRange(0, packetLength);
 
+                        //Empty the buffer if it gets too big
+                        if (_incomingBuffer.Count >= 2.5e+7)
+                        {
+                            _incomingBuffer.Clear();
+                        }
+
                         DecryptPacket(packetData);
-                        return ParsePacket(new L2RPacket(packetData));
-                        
+
+                        L2RPacket packetReader = new L2RPacket(packetData);
+                        ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
+                        Console.Out.WriteLineAsync("-Packet ID: " + packetId + "\r");
+
+                        PacketFactory factory = new ConcretePacketFactory();
+                        IL2RPacket pckt = factory.GetPacket(packetId, packetReader);
+
+                        //FIRE L2RPacketArrivalEvent
+                        L2RPacketArrivalEventArgs args = new L2RPacketArrivalEventArgs();
+                        args.Packet = pckt;
+                        OnL2RPacketArrival(args);
+
+                        return pckt;
                     }
                     else
                     {
-                        break;
+                        continue;
                     }
                 }
 
@@ -332,8 +270,17 @@ namespace Kamael.Packets
             catch (Exception ex)
             {
                 _incomingBuffer.Clear();
-                await Console.Out.WriteLineAsync("Incoming Data Error: \r\n" + ex.ToString());
+                Console.Out.WriteLineAsync("Incoming Data Error: \r\n" + ex.ToString());
                 return null;
+            }
+        }
+
+        protected virtual void OnL2RPacketArrival(L2RPacketArrivalEventArgs e)
+        {
+            EventHandler<L2RPacketArrivalEventArgs> eventhandler = L2RPacketArrivalEvent;
+            if (eventhandler != null)
+            {
+                eventhandler(this, e);
             }
         }
 
@@ -341,7 +288,7 @@ namespace Kamael.Packets
         /// Decrypts the packet.
         /// </summary>
         /// <param name="packet">The packet.</param>
-        public static void DecryptPacket(byte[] packet)
+        public void DecryptPacket(byte[] packet)
         {
             for (int i = 0; i < packet.Length; i++)
             {
@@ -349,51 +296,148 @@ namespace Kamael.Packets
             }
         }
 
-        /// <summary>
-        /// Helps this instance.
-        /// </summary>
-        public static void Help()
+        private IL2RPacket ProcessPackets(byte[] payloadData)
         {
-            Console.Out.WriteLineAsync("\nHelp\n");
-            Console.Out.WriteLineAsync("Correct usage: L2RPacketReader.exe -(option) (value)");
-            Console.Out.WriteLineAsync("\nStandalone Options\n");
-            Console.Out.WriteLineAsync("-h: Displays this document.");
-            Console.Out.WriteLineAsync("-d: Saves Data files between executions.");
-            Console.Out.WriteLineAsync("\nOptions That Require Values\n");
-            Console.Out.WriteLineAsync("-i #: Sets which device to listen for packets to capture.");
-            Console.Out.WriteLineAsync("-f \"filter\": Sets a custom filter for the packets using winPCap's filtering.");
-            Console.Out.WriteLineAsync("               default filter value is \"port 12000 and len > 60\"");
-            Console.Out.WriteLineAsync("-t #: Sets a custom timeout value. Default value is 1000.\n\n");
-            ExitProgram();
+            try
+            {
+                //L2RPacketService proceesses the incoming payload and translates it to a concrete class
+                IL2RPacket l2rPacket = GetPacket(payloadData);
+                //if (l2rPacket is PacketPlayerKillNotify)
+                //{
+                //    //NOTIFY KILL
+                //    //_killService.NotifyKill((PacketPlayerKillNotify)l2rPacket).Wait();
+
+                //}
+                //else if (l2rPacket is PacketClanMemberKillNotify)
+                //{
+                //    //NOTIFY KILL
+                //    _killService.NotifyKill((PacketClanMemberKillNotify)l2rPacket).Wait();
+
+                //}
+                //else if (l2rPacket is PacketChatGuildListReadResult && _config["clanchat:enabled"] == "true")
+                //{
+                //    //NOTIFY CLAN CHAT
+                //    UtilService.NotifyClanChat((PacketChatGuildListReadResult)l2rPacket).Wait();
+                //}
+
+                return l2rPacket;
+            }
+            catch (Exception ex)
+            {
+                Console.Out.WriteLineAsync("Process packet: " + ex.ToString());
+                return null;
+            }
         }
 
         /// <summary>
-        /// Exits the program.
+        /// Checks for queued packets. If any exist it locks the QueueLock, saves a
+        /// reference of the current queue for itself, puts a new queue back into
+        /// place into PacketQueue and unlocks QueueLock. This is a minimal amount of
+        /// work done while the queue is locked.
+        ///
+        /// The background thread can then process queue that it saved without holding
+        /// the queue lock.
         /// </summary>
-        public static void ExitProgram()
+        private void BackgroundThread()
         {
-            Environment.Exit(0);
+            while (!BackgroundThreadStop)
+            {
+                bool shouldSleep = true;
+
+                lock (QueueLock)
+                {
+                    if (PacketQueue.Count != 0)
+                    {
+                        shouldSleep = false;
+                    }
+                }
+
+                if (shouldSleep)
+                {
+                    System.Threading.Thread.Sleep(250);
+                }
+                else // should process the queue
+                {
+                    List<RawCapture> ourQueue;
+                    lock (QueueLock)
+                    {
+                        // swap queues, giving the capture callback a new one
+                        ourQueue = PacketQueue;
+                        PacketQueue = new List<RawCapture>();
+                    }
+
+                    Console.WriteLine("BackgroundThread: ourQueue.Count is {0}", ourQueue.Count);
+
+                    foreach (RawCapture packet in ourQueue)
+                    {
+                        // Here is where we can process our packets freely without
+                        // holding off packet capture.
+                        //
+                        // NOTE: If the incoming packet rate is greater than
+                        //       the packet processing rate these queues will grow
+                        //       to enormous sizes. Packets should be dropped in these
+                        //       cases
+
+                        PacketWrapper packetWrapper = new PacketWrapper(packetCount, packet);
+
+                        //this.BeginInvoke(new MethodInvoker(delegate
+                        //{
+                        //    packetStrings.Enqueue(packetWrapper);
+                        //}
+                        //));
+
+                        packetCount++;
+
+                        DateTime time = packet.Timeval.Date;
+                        int len = packet.Data.Length;
+                        Console.WriteLine("BackgroundThread: {0}:{1}:{2},{3} Len={4}",
+                            time.Hour, time.Minute, time.Second, time.Millisecond, len);
+                    }
+
+                    //this.BeginInvoke(new MethodInvoker(delegate
+                    //{
+                    //    //bs.DataSource = packetStrings.Reverse();
+                    //}
+                    //));
+
+                    if (statisticsUiNeedsUpdate)
+                    {
+                        UpdateCaptureStatistics();
+                        statisticsUiNeedsUpdate = false;
+                    }
+                }
+            }
         }
 
-        public static void InitializeDevice()
+        private string UpdateCaptureStatistics()
         {
-            /* Retrieve the device list  part of initialization*/
-            CaptureDeviceList devices = CaptureDeviceList.Instance;
+            string str = string.Format("Received packets: {0}, Dropped packets: {1}, Interface dropped packets: {2}",
+                                                       captureStatistics.ReceivedPackets,
+                                                       captureStatistics.DroppedPackets,
+                                                       captureStatistics.InterfaceDroppedPackets);
 
-            ICaptureDevice device = CaptureDeviceList.Instance[Globals.deviceInterface];
+            return str;
+        }
 
-            //Register our handler function to the 'packet arrival' event
-            device.OnPacketArrival +=
-                    new PacketArrivalEventHandler(L2RPacketService.PacketCapturer);
+        public class PacketWrapper
+        {
+            public RawCapture p;
 
-            // Open the device for capturing
-            device.Open(DeviceMode.Promiscuous, L2RPacketService.readTimeoutMilliseconds);
+            public int Count { get; private set; }
+            public PosixTimeval Timeval => p.Timeval;
+            public LinkLayers LinkLayerType => p.LinkLayerType;
+            public int Length => p.Data.Length;
 
-            //filter to capture only packets from L2R that have data
-            //string filter = "src port 12000 and len > 60";
-            device.Filter = L2RPacketService.filter;
+            public PacketWrapper(int count, RawCapture p)
+            {
+                Count = count;
+                this.p = p;
+            }
+        }
 
-            Device = device;
+        public class L2RPacketArrivalEventArgs : EventArgs
+        {
+            public IL2RPacket Packet { get; set; }
         }
     }
 }
