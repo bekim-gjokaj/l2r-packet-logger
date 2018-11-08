@@ -298,24 +298,7 @@ namespace Kamael.Packets
 
                                 if (packetData != null)
                                 {
-                                    DecryptPacket(packetData);
-
-                                    L2RPacket packetReader = new L2RPacket(packetData);
-                                    ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
-                                    Console.Out.WriteLineAsync("-Packet ID: " + packetId + "\r");
-
-                                    PacketFactory factory = new ConcretePacketFactory();
-                                    IL2RPacket l2rpckt = factory.GetPacket(packetId, packetReader);
-
-                                    //FIRE L2RPacketArrivalEvent
-                                    L2RPacketArrivalEventArgs args = new L2RPacketArrivalEventArgs
-                                    {
-                                        Packet = l2rpckt
-                                    };
-                                    OnL2RPacketArrival(args);
-
-
-                                    packetQue.Enqueue(l2rpckt);
+                                    ProcessPackets(packetData);
                                 }
 
                                 packetCount++;
@@ -354,6 +337,51 @@ namespace Kamael.Packets
 
 
 
+        }
+
+        private void ProcessPackets(byte[] packetData)
+        {
+            try
+            {
+
+                _incomingBuffer.AddRange(packetData);
+
+                ushort packetLength = BitConverter.ToUInt16(_incomingBuffer.GetRange(0, 2).ToArray(), 0);
+                if (_incomingBuffer.Count >= packetLength)
+                {
+                    byte spacer = _incomingBuffer[2]; // skip 1 byte
+
+                    packetData = _incomingBuffer.GetRange(3, packetLength - 3).ToArray();
+                    _incomingBuffer.RemoveRange(0, packetLength);
+
+
+
+
+                    DecryptPacket(packetData);
+
+                    L2RPacket packetReader = new L2RPacket(packetData);
+                    ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
+                    Console.Out.WriteLineAsync("-Packet ID: " + packetId + "\r");
+
+                    PacketFactory factory = new ConcretePacketFactory();
+                    IL2RPacket l2rpckt = factory.GetPacket(packetId, packetReader);
+
+                    //FIRE L2RPacketArrivalEvent
+                    L2RPacketArrivalEventArgs args = new L2RPacketArrivalEventArgs
+                    {
+                        Packet = l2rpckt
+                    };
+                    OnL2RPacketArrival(args);
+
+
+                    packetQue.Enqueue(l2rpckt);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         private string UpdateCaptureStatistics()
