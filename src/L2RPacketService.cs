@@ -237,12 +237,6 @@ namespace Kamael.Packets
                         byte[] packetData = _incomingBuffer.GetRange(3, packetLength - 3).ToArray();
                         _incomingBuffer.RemoveRange(0, packetLength);
 
-                        //Empty the buffer if it gets too big
-                        if (_incomingBuffer.Count >= 2.5e+7)
-                        {
-                            _incomingBuffer.Clear();
-                        }
-
                         DecryptPacket(packetData);
 
                         L2RPacket packetReader = new L2RPacket(packetData);
