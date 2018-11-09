@@ -379,7 +379,7 @@ namespace Kamael.Packets
             }
             catch (Exception ex)
             {
-
+                _incomingBuffer.Clear();
                 Console.WriteLine(ex.ToString());
             }
         }
