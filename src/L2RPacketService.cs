@@ -110,11 +110,13 @@ namespace Kamael.Packets
         public L2RPacketService(ICaptureDevice Device)
         {
             device = Device;
+            //StartCapture();
         }
 
         public L2RPacketService(int itemIndex)
         {
             device = CaptureDeviceList.Instance[itemIndex];
+            //StartCapture();
         }
 
         public void StartCapture()
@@ -154,8 +156,7 @@ namespace Kamael.Packets
 
 
             // start the background capture
-            device.Capture();
-
+            device.StartCapture();
 
             //// disable the stop icon since the capture has stopped
             //startStopToolStripButton.Image = global::WinformsExample.Properties.Resources.stop_icon_enabled;
@@ -246,6 +247,11 @@ namespace Kamael.Packets
         /// </summary>
         private void BackgroundThread()
         {
+
+
+            
+
+
             while (!BackgroundThreadStop)
             {
                 bool shouldSleep = true;
@@ -339,26 +345,27 @@ namespace Kamael.Packets
 
         }
 
-        private void ProcessPackets(byte[] packetData)
+        private void ProcessPackets(byte[] payloadData)
         {
             try
             {
 
-                _incomingBuffer.AddRange(packetData);
+                //get packetlength
+                byte[] tmparray = new byte[2];
+                tmparray[0] = payloadData[0];
+                tmparray[1] = payloadData[1];
+                ushort packetLength = BitConverter.ToUInt16(tmparray, 0);
 
-                ushort packetLength = BitConverter.ToUInt16(_incomingBuffer.GetRange(0, 2).ToArray(), 0);
-                if (_incomingBuffer.Count >= packetLength)
+                if (payloadData.Length >= packetLength)
                 {
-                    byte spacer = _incomingBuffer[2]; // skip 1 byte
+                    byte spacer = payloadData[2]; // skip 1 byte
 
-                    packetData = _incomingBuffer.GetRange(3, packetLength - 3).ToArray();
-                    _incomingBuffer.RemoveRange(0, packetLength);
-
-
-
-
+                    byte[] packetData = new byte [payloadData.Length- 3];
+                    //payloadData.CopyTo(packetData, 3);
+                    Array.Copy(payloadData, 3, packetData, 0, packetLength - 3);
                     DecryptPacket(packetData);
 
+                    //Get packet id
                     L2RPacket packetReader = new L2RPacket(packetData);
                     ushort packetId = (ushort)(packetReader.ReadUInt16() - 1);
                     Console.Out.WriteLineAsync("-Packet ID: " + packetId + "\r");
@@ -376,6 +383,10 @@ namespace Kamael.Packets
 
                     packetQue.Enqueue(l2rpckt);
                 }
+                
+
+                
+                
             }
             catch (Exception ex)
             {
