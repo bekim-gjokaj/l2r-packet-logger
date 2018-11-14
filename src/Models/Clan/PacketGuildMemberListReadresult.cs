@@ -42,11 +42,14 @@ namespace Kamael.Packets.Clan
 
         public List<PacketGuildMemberItem> Members { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PacketGuildMemberListReadResult" /> class.
-        /// </summary>
-        /// <param name="packet">The packet.</param>
-        public PacketGuildMemberListReadResult(L2RPacket packet)
+        public PacketGuildMemberListReadResult()
+        {
+        }
+            /// <summary>
+            /// Initializes a new instance of the <see cref="PacketGuildMemberListReadResult" /> class.
+            /// </summary>
+            /// <param name="packet">The packet.</param>
+            public PacketGuildMemberListReadResult(L2RPacket packet)
         {
             using (StreamWriter fileStream = new StreamWriter(@"Output\GuildMemberList.csv", true))
             {
