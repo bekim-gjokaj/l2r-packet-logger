@@ -36,8 +36,12 @@ namespace Kamael.Packets
             if (test != null)
                 Console.WriteLine("GOT ONE!!");
 
-            //switch (e.Packet.GetType())
+            //switch (e.Packet.GetType().ToString())
             //{
+            //    case "PacketGuildMemberListReadResult":
+            //        PacketGuildMemberListReadResult members = e.Packet;
+            //        Console.WriteLine($"Got PacketGuildMemberListReadResult: Member count ({(PacketGuildMemberListReadResult)e.Packet.})");
+            //        break;
 
             //}
         }
