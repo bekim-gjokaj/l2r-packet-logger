@@ -27,9 +27,9 @@ namespace Kamael.Packets.Factory
 
 
                     case 774:  return new PacketChatGuildListReadResult((L2RPacket)packet);     // 0x307//return new PacketChatGuildListReadResult";
-                    case 776: return new PacketChatGuildWriteResult(packet);      // 0x309 //return new PacketChatGuildWriteResult";
-                    case 779:  return new PacketChatGuildWriteResult(packet);     // 0x30C//return new PacketChatGuildMessageReadResult";
-
+                    case 776: return new PacketChatGuildWriteResult((L2RPacket)packet);      // 0x309 //return new PacketChatGuildWriteResult";
+                    case 779:  return new PacketChatGuildWriteResult((L2RPacket)packet);     // 0x30C//return new PacketChatGuildMessageReadResult";
+                    case 1402: return new PacketClanMemberListReadResult((L2RPacket)packet);// 0x57B//return new PacketGuildMemberListRead";       
 
 
                     //case 0: break;//return new PacketVersion(packet);    // 0x1 //return new PacketVersion";
@@ -2609,7 +2609,7 @@ namespace Kamael.Packets.Factory
                     //    break;
 
                     //case 1403:      // 0x57C
-                    //                //return new PacketGuildMemberListReadResult";
+                    //                //return new PacketClanMemberListReadResult";
                     //                //PktGuildMemberListReadresult.Packet(packet);
                     //    break;
 

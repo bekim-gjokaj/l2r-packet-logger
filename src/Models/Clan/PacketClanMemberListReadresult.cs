@@ -6,7 +6,7 @@ namespace Kamael.Packets.Clan
     /// <summary>
     ///
     /// </summary>
-    public class PacketGuildMemberListReadResult : IL2RPacket
+    public class PacketClanMemberListReadResult : IL2RPacket
     {
         /// <summary>
         /// Gets or sets the bytes.
@@ -40,16 +40,17 @@ namespace Kamael.Packets.Clan
         /// </value>
         public ushort MemberCount { get; set; }
 
-        public List<PacketGuildMemberItem> Members { get; set; }
+        public List<PacketClanMemberItem> Members { get; set; }
 
-        public PacketGuildMemberListReadResult()
+        public PacketClanMemberListReadResult()
         {
         }
-            /// <summary>
-            /// Initializes a new instance of the <see cref="PacketGuildMemberListReadResult" /> class.
-            /// </summary>
-            /// <param name="packet">The packet.</param>
-            public PacketGuildMemberListReadResult(L2RPacket packet)
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PacketClanMemberListReadResult" /> class.
+        /// </summary>
+        /// <param name="packet">The packet.</param>
+        public PacketClanMemberListReadResult(L2RPacket packet)
         {
             using (StreamWriter fileStream = new StreamWriter(@"Output\GuildMemberList.csv", true))
             {
@@ -63,27 +64,29 @@ namespace Kamael.Packets.Clan
                 // Parses the PktGuildMemberListReadresult
                 while (packet.Remaining > 0)
                 {
-                    PacketGuildMemberItem item = new PacketGuildMemberItem();
-                    item.PlayerID = packet.ReadUInt64();
-                    item.PlayerName = packet.ReadString();
-                    item.ClanRole = CSV.guildMemberGrade.guildMemberGradeName(packet.ReadByte());
-                    item.Race = CSV.race.RaceName(packet.ReadInt32());
-                    item.PlayerClass = CSV.Class.className(packet.ReadUInt16());
-                    item.UnkA = packet.ReadByte();
-                    item.UnkB = packet.ReadByte();
-                    item.Level = packet.ReadUInt16();
-                    item.Offline = Misc.Misc.CalcTime(packet.ReadUInt64());
-                    item.Contribution = packet.ReadUInt32();
-                    item.TotalContribution = packet.ReadUInt32();
-                    item.IGreet = packet.ReadByte();
-                    item.TheyGreet = packet.ReadByte();
-                    item.Checkin = packet.ReadByte();
-                    item.PlayerCP = packet.ReadUInt32();
-                    item.Unk1 = packet.ReadUInt32();
-                    item.RewardCount = packet.ReadByte();
-                    item.WorldID = CSV.world.worldName(packet.ReadUInt16());
-                    item.introLength = packet.ReadUInt16();
-                    item.Introduction = packet.ReadString();
+                    PacketClanMemberItem item = new PacketClanMemberItem
+                    {
+                        PlayerID = packet.ReadUInt64(),
+                        PlayerName = packet.ReadString(),
+                        ClanRole = CSV.guildMemberGrade.guildMemberGradeName(packet.ReadByte()),
+                        Race = CSV.race.RaceName(packet.ReadInt32()),
+                        PlayerClass = CSV.Class.className(packet.ReadUInt16()),
+                        UnkA = packet.ReadByte(),
+                        UnkB = packet.ReadByte(),
+                        Level = packet.ReadUInt16(),
+                        Offline = Misc.Misc.CalcTime(packet.ReadUInt64()),
+                        Contribution = packet.ReadUInt32(),
+                        TotalContribution = packet.ReadUInt32(),
+                        IGreet = packet.ReadByte(),
+                        TheyGreet = packet.ReadByte(),
+                        Checkin = packet.ReadByte(),
+                        PlayerCP = packet.ReadUInt32(),
+                        Unk1 = packet.ReadUInt32(),
+                        RewardCount = packet.ReadByte(),
+                        WorldID = CSV.world.worldName(packet.ReadUInt16()),
+                        introLength = packet.ReadUInt16(),
+                        Introduction = packet.ReadString()
+                    };
                     packet.Skip(1);
 
                     Members.Add(item);
@@ -97,7 +100,7 @@ namespace Kamael.Packets.Clan
         }
     }
 
-    public class PacketGuildMemberItem
+    public class PacketClanMemberItem
     {
         /// <summary>
         /// Gets or sets the checkin.
