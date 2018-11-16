@@ -10,19 +10,19 @@ namespace Kamael.Packets.Clan
 
         public PacketClanInfoReadResult(IL2RPacket packet)
         {
-            using (StreamWriter fileStream = new StreamWriter(@"Output\DetailedGuildInfo.csv", true))
-            {
+            //using (StreamWriter fileStream = new StreamWriter(@"Output\DetailedGuildInfo.csv", true))
+            //{
                 // First two bytes are not used.
                 packet.Skip(2);
 
-                //Writes header for the PktGuildInfoReadresult
-                if (fileStream.BaseStream.Length < 1)
-                {
-                    fileStream.WriteLineAsync("ID,Ranking,Name,Leader,Level,Exp,As Percentage, Reputation,Combat Power,Adena," +
-                        "Proof of Blood,Red Star Stone,Members,Checked in Yesterday,Checked in Today," +
-                        "Fortress Owned,Fortress Occupy Date,Wins,Draws,Losses,Require Approval," +
-                        "Level Requirement,Intro,Notice");
-                }
+                ////Writes header for the PktGuildInfoReadresult
+                //if (fileStream.BaseStream.Length < 1)
+                //{
+                //    fileStream.WriteLineAsync("ID,Ranking,Name,Leader,Level,Exp,As Percentage, Reputation,Combat Power,Adena," +
+                //        "Proof of Blood,Red Star Stone,Members,Checked in Yesterday,Checked in Today," +
+                //        "Fortress Owned,Fortress Occupy Date,Wins,Draws,Losses,Require Approval," +
+                //        "Level Requirement,Intro,Notice");
+                //}
 
                 ID = packet.ReadUInt64();
                 Name = packet.ReadString();
@@ -122,16 +122,16 @@ namespace Kamael.Packets.Clan
                 ExpPer = Convert.ToDouble(CSV.guildLevelUp.guildLevelUpExp(Level));
                 ExpPer = Exp / ExpPer * 100;
 
-                fileStream.Write(ID + "," + Ranking + "," + Name + "," + LeaderName + "," + Level + "," + Exp + "," + ExpPer + "%," +
-                    Reputation + "," + CombatPower + "," + Adena + "," + BloodCrystal + "," + RedStarStone + "," +
-                     TMembers + "," + CheckinYesterday + "," + CheckinToday + "," +
-                    FortressOwned + ",");
-                if (FortressOccupyDate > 0)
-                { fileStream.Write(FortressOccupyDate + "," + Wins + "," + Draws + "," + Losses + ","); }
-                else
-                { fileStream.Write(",,,,"); }
-                fileStream.Write(RequireApproval + "," + LevelRequirement + ",\"" + Intro + "\",\"" + Notice + "\"\n");
-            }
+                //fileStream.Write(ID + "," + Ranking + "," + Name + "," + LeaderName + "," + Level + "," + Exp + "," + ExpPer + "%," +
+                //    Reputation + "," + CombatPower + "," + Adena + "," + BloodCrystal + "," + RedStarStone + "," +
+                //     TMembers + "," + CheckinYesterday + "," + CheckinToday + "," +
+                //    FortressOwned + ",");
+                //if (FortressOccupyDate > 0)
+                //{ fileStream.Write(FortressOccupyDate + "," + Wins + "," + Draws + "," + Losses + ","); }
+                //else
+                //{ fileStream.Write(",,,,"); }
+                //fileStream.Write(RequireApproval + "," + LevelRequirement + ",\"" + Intro + "\",\"" + Notice + "\"\n");
+            //}
         }
 
         /// <summary>
