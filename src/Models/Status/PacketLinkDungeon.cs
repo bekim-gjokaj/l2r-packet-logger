@@ -6,7 +6,7 @@ namespace Kamael.Packets.Status
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketLinkDungeon : IL2RPacket
+    public class PacketLinkDungeon : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketLinkDungeon" /> class.

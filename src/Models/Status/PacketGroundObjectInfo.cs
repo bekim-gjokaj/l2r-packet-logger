@@ -5,7 +5,7 @@ namespace Kamael.Packets.Status
     /// <summary>
     ///
     /// </summary>
-    internal class PacketGroundObjectInfo
+    public class PacketGroundObjectInfo
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketGroundObjectInfo"/> class.

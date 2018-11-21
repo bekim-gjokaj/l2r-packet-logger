@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace Kamael.Packets.CSV
 {
-    internal class guildMemberGradeheader
+    public class guildMemberGradeheader
     {
         public int Grade { get; set; }
         public string Name { get; set; }
     }
 
-    internal class guildMemberGrade
+    public class guildMemberGrade
     {
         private static IEnumerable<guildMemberGradeheader> _records;
 

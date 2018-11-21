@@ -2,7 +2,7 @@
 
 namespace Kamael.Packets.Parser
 {
-    internal class HandlerSEA
+    public class HandlerSEA
     {
         private static string result;
 

@@ -1,6 +1,6 @@
 ﻿namespace Kamael.Packets.Builder
 {
-    internal class PacketDirector
+    public class PacketDirector
     {
         private PacketBuilder builder = new PacketBuilderConcrete();
 

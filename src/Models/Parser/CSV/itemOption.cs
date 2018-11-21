@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace Kamael.Packets.CSV
 {
-    internal class itemOptionheader
+    public class itemOptionheader
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public string Desc { get; set; }
     }
 
-    internal class itemOption
+    public class itemOption
     {
         private static List<itemOptionheader> _records;
 

@@ -10,7 +10,7 @@ namespace Kamael.Packets.Character
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketOtherPlayer : IL2RPacket
+    public class PacketOtherPlayer : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketOtherPlayer"/> class.
@@ -32,9 +32,10 @@ namespace Kamael.Packets.Character
             MoveSpeed = packet.ReadUInt32();
             BuffCount = packet.ReadUInt16();
             // PktBuffInfo
+            BuffInfoList = new List<PacketBuffInfo>();
             for (int i = 0; i < BuffCount; i++)
             {
-                //PktBuffInfo.Packet(packet);
+                ////PktBuffInfo.Packet(packet);
                 BuffInfoList.Add(new PacketBuffInfo(packet));
             }
 
@@ -44,14 +45,15 @@ namespace Kamael.Packets.Character
             PKAttackState = packet.ReadByte();
             PKPoint = packet.ReadUInt32();
 
-            // PktAppearance
-            AppearanceList.Add(new PacketAppeareance(packet));
+            //// PktAppearance
+            //AppearanceList.Add(new PacketAppeareance(packet));
 
             EquipCount = packet.ReadUInt16();
             // PktSimpleEquipment
+            SimpleEquipList = new List<PacketSimpleEquipment>();
             for (int i = 0; i < EquipCount; i++)
             {
-                SimpleEquipList.Add(new PacketSimpleEquipment(packet));
+                //SimpleEquipList.Add(new PacketSimpleEquipment(packet));
             }
 
             TeamID = packet.ReadUInt64();
@@ -59,6 +61,7 @@ namespace Kamael.Packets.Character
 
             Guilded = packet.ReadByte();
             // PktPlayerGuild
+            PlayerGuildList = new List<PacketPlayerGuild>();
             if (Guilded > 0)
             {
                 PlayerGuildList.Add(new PacketPlayerGuild(packet));
@@ -74,13 +77,14 @@ namespace Kamael.Packets.Character
             byte SetEmblem = packet.ReadByte();
             if (SetEmblem > 0)
             {
-                PartyEmblemList.Add(new PacketPartyEmblem(packet));
+                //PartyEmblemList.Add(new PacketPartyEmblem(packet));
             }
 
             //PktSimpleCape
-            SimpleCapeList.Add(new PacketSimpleCape(packet));
+            //SimpleCapeList.Add(new PacketSimpleCape(packet));
 
             //PktPKMode
+            PKModeList = new List<PacketPKMode>();
             PKModeList.Add(new PacketPKMode(packet));
 
             CurBarrier = packet.ReadUInt32();

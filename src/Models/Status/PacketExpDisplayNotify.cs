@@ -6,7 +6,7 @@ namespace Kamael.Packets.Status
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketExpDisplayNotify : IL2RPacket
+    public class PacketExpDisplayNotify : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketExpDisplayNotify" /> class.
@@ -40,7 +40,7 @@ namespace Kamael.Packets.Status
         /// <value>
         /// The bonus.
         /// </value>
-        private uint Bonus { get; set; }
+        public uint Bonus { get; set; }
 
         /// <summary>
         /// Gets or sets the exp.
@@ -48,6 +48,6 @@ namespace Kamael.Packets.Status
         /// <value>
         /// The exp.
         /// </value>
-        private uint Exp { get; set; }
+        public uint Exp { get; set; }
     }
 }

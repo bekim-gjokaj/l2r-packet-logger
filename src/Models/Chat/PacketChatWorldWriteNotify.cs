@@ -2,7 +2,7 @@
 
 namespace Kamael.Packets.Chat
 {
-    internal class PacketChatWorldWriteNotify : IL2RPacket
+    public class PacketChatWorldWriteNotify : IL2RPacket
     {
         public PacketChatWorldWriteNotify(IL2RPacket packet)
         {

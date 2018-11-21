@@ -7,7 +7,7 @@ namespace Kamael.Packets.Item
     ///
     /// </summary>
     /// <seealso cref="IL2RPacket" />
-    internal class PacketItemSoulCrystal : IL2RPacket
+    public class PacketItemSoulCrystal : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketItemSocket" /> class.

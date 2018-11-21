@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Kamael.Packets.Parser
 {
-    internal class HandlerINT
+    public class HandlerINT
     {
         private static IL2RPacket result;
 

@@ -2,7 +2,7 @@
 
 namespace Kamael.Packets.Parser
 {
-    internal class HandlerKOR
+    public class HandlerKOR
     {
         private static string result;
 

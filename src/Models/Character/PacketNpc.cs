@@ -8,7 +8,7 @@ namespace Kamael.Packets.Character
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketNpc : IL2RPacket
+    public class PacketNpc : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketNpc"/> class.

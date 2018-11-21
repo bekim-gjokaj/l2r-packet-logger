@@ -6,7 +6,7 @@ namespace Kamael.Packets.Parser.Parsers
     /// <summary>
     ///
     /// </summary>
-    internal class PacketGuildSearchResult
+    public class PacketGuildSearchResult
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketGuildSearchResult"/> class.

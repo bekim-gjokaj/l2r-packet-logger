@@ -6,7 +6,7 @@ namespace Kamael.Packets.Character
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketPlayerGuild : IL2RPacket
+    public class PacketPlayerGuild : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketPlayerGuild" /> class.
@@ -16,11 +16,11 @@ namespace Kamael.Packets.Character
         {
             GuildID = packet.ReadUInt64();
             GuildMembersGrade = packet.ReadByte();
-            GuildName = packet.ReadString();
-            EmblemSymbolInfoID = packet.ReadUInt32();
-            EmblemBackgroundInfoID = packet.ReadUInt32();
-            OccupyTitleInfoID = packet.ReadUInt32();
-            CastleType = packet.ReadByte();
+            //GuildName = packet.ReadString();
+            //EmblemSymbolInfoID = packet.ReadUInt32();
+            //EmblemBackgroundInfoID = packet.ReadUInt32();
+            //OccupyTitleInfoID = packet.ReadUInt32();
+            //CastleType = packet.ReadByte();
         }
 
         /// <summary>

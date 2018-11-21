@@ -6,7 +6,7 @@ namespace Kamael.Packets.Chat
     /// <summary>
     ///
     /// </summary>
-    internal class PacketChatWorldWriteResult : IL2RPacket
+    public class PacketChatWorldWriteResult : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketChatWorldWriteResult" /> class.

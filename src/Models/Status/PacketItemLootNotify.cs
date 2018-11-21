@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Kamael.Packets.Status
 {
-    internal class PacketItemLootNotify
+    public class PacketItemLootNotify
     {
         public PacketItemLootNotify(IL2RPacket packet)
         {

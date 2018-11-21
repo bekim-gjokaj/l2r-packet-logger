@@ -6,7 +6,7 @@ namespace Kamael.Packets.Chat
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketChatPartyWriteNotify : IL2RPacket
+    public class PacketChatPartyWriteNotify : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketChatPartyWriteNotify" /> class.

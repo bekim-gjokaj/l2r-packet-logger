@@ -5,7 +5,7 @@ namespace Kamael.Packets.Status
     /// <summary>
     ///
     /// </summary>
-    internal class PacketBuffInfo
+    public class PacketBuffInfo
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketBuffInfo" /> class.

@@ -5,7 +5,7 @@ namespace Kamael.Packets.Character
     /// <summary>
     ///
     /// </summary>
-    internal class PacketPKMode : IL2RPacket
+    public class PacketPKMode : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketPKMode"/> class.

@@ -23,7 +23,6 @@
     <Compile Remove="Models\Status\PacketPlayerMoveListNotify.cs" />
     <Compile Remove="Models\Status\PacketProjectileInfo.cs" />
     <Compile Remove="Models\Status\PacketRankingListRead.cs" />
-    <Compile Remove="Models\Status\PacketSightEnterNotify.cs" />
     <Compile Remove="Models\Status\PacketSkillHitNotify.cs" />
     <Compile Remove="Models\Status\PacketSkillStartResult.cs" />
     <Compile Remove="Models\Status\PacketVector.cs" />

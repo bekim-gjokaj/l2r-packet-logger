@@ -8,7 +8,7 @@ namespace Kamael.Packets
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
     /// <seealso cref="Kamael.Models.IL2RPacket" />
     [Serializable]
-    internal class PacketStatusMovement : IL2RPacket
+    public class PacketStatusMovement : IL2RPacket
     {
         /// <summary>
         /// The packet identifier

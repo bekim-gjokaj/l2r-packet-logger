@@ -2,7 +2,7 @@
 
 namespace Kamael.Packets.Clan
 {
-    internal class PacketGuildRecordListReadresult
+    public class PacketGuildRecordListReadresult
     {
         public PacketGuildRecordListReadresult(PacketReader packet)
         {

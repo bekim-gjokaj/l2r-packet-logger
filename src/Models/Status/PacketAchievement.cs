@@ -6,7 +6,7 @@ namespace Kamael.Packets.Status
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketAchievement : IL2RPacket
+    public class PacketAchievement : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketAchievement" /> class.

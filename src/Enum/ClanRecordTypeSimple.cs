@@ -1,6 +1,6 @@
 ﻿namespace Kamael.Packets.Enum
 {
-    internal class ClanRecordTypeSimple
+    public class ClanRecordTypeSimple
     {
         public static string Enum(byte CEValue)
         {

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kamael.Packets.CSV
 {
-    internal class skillheader
+    public class skillheader
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -14,7 +14,7 @@ namespace Kamael.Packets.CSV
         public string SkillDialogue { get; set; }
     }
 
-    internal class skill
+    public class skill
     {
         private static IEnumerable<skillheader> _records;
 

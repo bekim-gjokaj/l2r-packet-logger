@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Kamael.Packets.Chat
 {
-    internal class PacketChatPartyWriteResult : IL2RPacket
+    public class PacketChatPartyWriteResult : IL2RPacket
     {
         public PacketChatPartyWriteResult(IL2RPacket packet)
         {

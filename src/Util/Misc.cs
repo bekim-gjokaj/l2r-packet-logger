@@ -1,6 +1,6 @@
 ﻿namespace Kamael.Packets.Misc
 {
-    internal class Misc
+    public class Misc
     {
         public static string CalcTime(ulong Timevalue)
         {

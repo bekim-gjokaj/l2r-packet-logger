@@ -1,6 +1,8 @@
 ﻿using Kamael.Packets.Character;
 using Kamael.Packets.Chat;
 using Kamael.Packets.Clan;
+using Kamael.Packets.Status;
+using L2RKamael.Packets.Status;
 using System;
 
 /// <summary>
@@ -20,7 +22,8 @@ namespace Kamael.Packets.Factory
 
                 switch (PacketID)
                 {
-
+                    case 204: return new PacketSightEnterNotify((L2RPacket)packet);
+                    case 287: return new PacketExpDisplayNotify((L2RPacket)packet);
                     case 1569: return new PacketClanMemberKillNotify((L2RPacket)packet); // 0x622 //return new PacketGuildMemberKillNotify";
 
                     case 2127: return new PacketPlayerKillNotify((L2RPacket)packet); // 0x850

@@ -6,7 +6,7 @@ namespace Kamael.Packets.Item
     /// <summary>
     ///
     /// </summary>
-    internal class PacketBagInfo : IL2RPacket
+    public class PacketBagInfo : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketBagInfo"/> class.

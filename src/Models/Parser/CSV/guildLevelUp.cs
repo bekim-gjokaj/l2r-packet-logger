@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Kamael.Packets.CSV
 {
-    internal class guildLevelUpheader
+    public class guildLevelUpheader
     {
         public int Lv { get; set; }
         public int MaximumGuildMemberCount { get; set; }
@@ -19,7 +19,7 @@ namespace Kamael.Packets.CSV
         public int PrizeCount { get; set; }
     }
 
-    internal class guildLevelUp
+    public class guildLevelUp
     {
         private static IEnumerable<guildLevelUpheader> _records;
 

@@ -8,7 +8,7 @@ namespace Kamael.Packets.Status
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketLinkItem : IL2RPacket
+    public class PacketLinkItem : IL2RPacket
     {
         /// <summary>
         /// The basic option

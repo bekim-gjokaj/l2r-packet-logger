@@ -2,7 +2,7 @@
 
 namespace L2RKamael.Parser.Pkt
 {
-    internal class PktSightEnterNotify
+    public class PktSightEnterNotify : IL2RPacket
     {
         public Packet(PacketReader packet)
         {

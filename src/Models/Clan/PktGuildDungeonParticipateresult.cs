@@ -6,7 +6,7 @@ namespace Kamael.Packets.Clan
     /// <summary>
     ///
     /// </summary>
-    internal class PacketGuildDungeonParticipateresult
+    public class PacketGuildDungeonParticipateresult
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketGuildDungeonParticipateresult" /> class.

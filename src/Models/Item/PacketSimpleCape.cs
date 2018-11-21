@@ -6,7 +6,7 @@ namespace Kamael.Packets.Item
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketSimpleCape : IL2RPacket
+    public class PacketSimpleCape : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketSimpleCape"/> class.

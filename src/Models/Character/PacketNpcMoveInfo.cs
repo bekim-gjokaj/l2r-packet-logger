@@ -5,7 +5,7 @@ namespace Kamael.Packets.Character
     /// <summary>
     ///
     /// </summary>
-    internal class PacketNpcMoveInfo : IL2RPacket
+    public class PacketNpcMoveInfo : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketNpcMoveInfo"/> class.

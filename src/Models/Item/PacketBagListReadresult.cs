@@ -7,7 +7,7 @@ namespace Kamael.Packets.Item
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketBagListReadResult : IL2RPacket
+    public class PacketBagListReadResult : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketBagListReadResult"/> class.

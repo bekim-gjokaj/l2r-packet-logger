@@ -9,7 +9,7 @@ namespace Kamael.Packets.Chat
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketChat : IL2RPacket
+    public class PacketChat : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketChat" /> class.

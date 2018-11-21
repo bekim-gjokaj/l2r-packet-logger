@@ -6,7 +6,7 @@ namespace Kamael.Packets.Parser.Parsers
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketMonsterBookListReadresult : IL2RPacket
+    public class PacketMonsterBookListReadresult : IL2RPacket
     {
         /// <summary>
         /// Gets or sets the bytes.

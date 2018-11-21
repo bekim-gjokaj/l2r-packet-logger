@@ -4,7 +4,7 @@
     ///
     /// </summary>
     /// <seealso cref="Kamael.Packets.IL2RPacket" />
-    internal class PacketSimpleEquipment : IL2RPacket
+    public class PacketSimpleEquipment : IL2RPacket
     {
         public byte[] _bytes { get; set; }
         public int _index { get; set; }

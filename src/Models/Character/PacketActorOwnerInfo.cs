@@ -5,7 +5,7 @@ namespace Kamael.Packets.Character
     /// <summary>
     ///
     /// </summary>
-    internal class PacketActorOwnerInfo : IL2RPacket
+    public class PacketActorOwnerInfo : IL2RPacket
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PacketActorOwnerInfo" /> class.

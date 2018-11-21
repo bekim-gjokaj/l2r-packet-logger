@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kamael.Packets.CSV
 {
-    internal class MonsterBookheader
+    public class MonsterBookheader
     {
         public string Id { get; set; }
         public string BookLevel { get; set; }
@@ -26,7 +26,7 @@ namespace Kamael.Packets.CSV
         public string NameDirection { get; set; }
     }
 
-    internal class MonsterBook
+    public class MonsterBook
     {
         private static IEnumerable<MonsterBookheader> _records;
 

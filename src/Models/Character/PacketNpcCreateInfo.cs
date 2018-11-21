@@ -6,7 +6,7 @@ namespace Kamael.Packets.Character
     /// <summary>
     ///
     /// </summary>
-    internal class PacketNpcCreateInfo : IL2RPacket
+    public class PacketNpcCreateInfo : IL2RPacket
     {
         public byte[] _bytes { get; set; }
         public int _index { get; set; }

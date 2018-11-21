@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kamael.Packets.CSV
 {
-    internal class achievementheader
+    public class achievementheader
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace Kamael.Packets.CSV
         public string Reward { get; set; }
     }
 
-    internal class achievement
+    public class achievement
     {
         private static IEnumerable<achievementheader> _records;
 

@@ -3,7 +3,7 @@
     /// <summary>
     ///
     /// </summary>
-    internal class PacketPartyEmblem : IL2RPacket
+    public class PacketPartyEmblem : IL2RPacket
     {
         public byte[] _bytes { get; set; }
         public int _index { get; set; }

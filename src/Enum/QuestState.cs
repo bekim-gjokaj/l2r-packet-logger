@@ -1,6 +1,6 @@
 ﻿namespace Kamael.Packets.Enum
 {
-    internal class QuestState
+    public class QuestState
     {
         public static string Enum(byte value)
         {

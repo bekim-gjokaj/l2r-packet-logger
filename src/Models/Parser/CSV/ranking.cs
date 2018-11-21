@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kamael.Packets.CSV
 {
-    internal class rankingheader
+    public class rankingheader
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -13,7 +13,7 @@ namespace Kamael.Packets.CSV
         public string Unit { get; set; }
     }
 
-    internal class Ranking
+    public class Ranking
     {
         private static IEnumerable<rankingheader> _records;
 
