@@ -57,7 +57,7 @@ namespace L2RKamael.Packets.Status
             UInt16 BossNpcCombatStartTimeCount = packet.ReadUInt16();
             for (int i = 0; i < BossNpcCombatStartTimeCount; i++)
             {
-                UInt64 BossUID = packet.ReadUInt64();
+                //UInt64 BossUID = packet.ReadUInt64();
                 //DateTime Time = packet.ReadDate();
             }
         }
