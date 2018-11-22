@@ -4,7 +4,7 @@ using Kamael.Packets.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 
-namespace L2RKamael.Packets.Status
+namespace Kamael.Packets.Status
 {
     public class PacketSightEnterNotify : IL2RPacket
     {

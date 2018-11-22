@@ -163,7 +163,7 @@ namespace Kamael.Packets
             //startStopToolStripButton.ToolTipText = "Stop capture";
         }
 
-        private void Shutdown()
+        public void StopCapture()
         {
             if (device != null)
             {
