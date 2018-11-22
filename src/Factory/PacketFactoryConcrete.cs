@@ -2,7 +2,6 @@
 using Kamael.Packets.Chat;
 using Kamael.Packets.Clan;
 using Kamael.Packets.Status;
-using L2RKamael.Packets.Status;
 using System;
 
 /// <summary>
