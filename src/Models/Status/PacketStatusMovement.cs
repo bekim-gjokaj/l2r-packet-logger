@@ -13,7 +13,7 @@ namespace Kamael.Packets
         /// <summary>
         /// The packet identifier
         /// </summary>
-        public readonly ushort packetId = 203;
+        public readonly ushort packetId = 202;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StatusMovement" /> class.
