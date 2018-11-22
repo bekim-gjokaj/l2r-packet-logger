@@ -114,7 +114,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The appearance list.
         /// </value>
-        private List<PacketAppeareance> AppearanceList { get; set; }
+        public List<PacketAppeareance> AppearanceList { get; set; }
 
         /// <summary>
         /// Gets or sets the buff count.
@@ -122,7 +122,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The buff count.
         /// </value>
-        private ushort BuffCount { get; set; }
+        public ushort BuffCount { get; set; }
 
         /// <summary>
         /// Gets or sets the buff information list.
@@ -130,7 +130,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The buff information list.
         /// </value>
-        private List<PacketBuffInfo> BuffInfoList { get; set; }
+        public List<PacketBuffInfo> BuffInfoList { get; set; }
 
         /// <summary>
         /// Gets or sets the class.
@@ -138,7 +138,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The class.
         /// </value>
-        private uint Class { get; set; }
+        public uint Class { get; set; }
 
         /// <summary>
         /// Gets or sets the combat mode.
@@ -146,7 +146,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The combat mode.
         /// </value>
-        private byte CombatMode { get; set; }
+        public byte CombatMode { get; set; }
 
         /// <summary>
         /// Gets or sets the control gadget identifier.
@@ -154,7 +154,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The control gadget identifier.
         /// </value>
-        private ulong ControlGadgetID { get; set; }
+        public ulong ControlGadgetID { get; set; }
 
         /// <summary>
         /// Gets or sets the current barrier.
@@ -162,7 +162,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The current barrier.
         /// </value>
-        private uint CurBarrier { get; set; }
+        public uint CurBarrier { get; set; }
 
         /// <summary>
         /// Gets or sets the current hp.
@@ -170,7 +170,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The current hp.
         /// </value>
-        private uint CurHP { get; set; }
+        public uint CurHP { get; set; }
 
         /// <summary>
         /// Gets or sets the direction.
@@ -178,7 +178,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The direction.
         /// </value>
-        private float Direction { get; set; }
+        public float Direction { get; set; }
 
         /// <summary>
         /// Gets or sets the equip count.
@@ -186,7 +186,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The equip count.
         /// </value>
-        private uint EquipCount { get; set; }
+        public uint EquipCount { get; set; }
 
         /// <summary>
         /// Gets or sets the equipped title information identifier.
@@ -194,7 +194,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The equipped title information identifier.
         /// </value>
-        private uint EquippedTitleInfoID { get; set; }
+        public uint EquippedTitleInfoID { get; set; }
 
         /// <summary>
         /// Gets or sets the guilded.
@@ -202,7 +202,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The guilded.
         /// </value>
-        private byte Guilded { get; set; }
+        public byte Guilded { get; set; }
 
         /// <summary>
         /// Gets or sets the is costume hidden.
@@ -210,7 +210,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The is costume hidden.
         /// </value>
-        private byte IsCostumeHidden { get; set; }
+        public byte IsCostumeHidden { get; set; }
 
         /// <summary>
         /// Gets or sets the level.
@@ -218,7 +218,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The level.
         /// </value>
-        private ushort Level { get; set; }
+        public ushort Level { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum barrier.
@@ -226,7 +226,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The maximum barrier.
         /// </value>
-        private uint MaxBarrier { get; set; }
+        public uint MaxBarrier { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum hp.
@@ -234,7 +234,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The maximum hp.
         /// </value>
-        private uint MaxHP { get; set; }
+        public uint MaxHP { get; set; }
 
         /// <summary>
         /// Gets or sets the move speed.
@@ -242,7 +242,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The move speed.
         /// </value>
-        private uint MoveSpeed { get; set; }
+        public uint MoveSpeed { get; set; }
 
         /// <summary>
         /// Gets or sets the party emblem list.
@@ -250,7 +250,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The party emblem list.
         /// </value>
-        private List<PacketPartyEmblem> PartyEmblemList { get; set; }
+        public List<PacketPartyEmblem> PartyEmblemList { get; set; }
 
         /// <summary>
         /// Gets or sets the state of the pk attack.
@@ -258,7 +258,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The state of the pk attack.
         /// </value>
-        private byte PKAttackState { get; set; }
+        public byte PKAttackState { get; set; }
 
         /// <summary>
         /// Gets or sets the pk mode list.
@@ -266,7 +266,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The pk mode list.
         /// </value>
-        private List<PacketPKMode> PKModeList { get; set; }
+        public List<PacketPKMode> PKModeList { get; set; }
 
         /// <summary>
         /// Gets or sets the pk point.
@@ -274,7 +274,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The pk point.
         /// </value>
-        private uint PKPoint { get; set; }
+        public uint PKPoint { get; set; }
 
         /// <summary>
         /// Gets or sets the pk status.
@@ -282,7 +282,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The pk status.
         /// </value>
-        private byte PKStatus { get; set; }
+        public byte PKStatus { get; set; }
 
         /// <summary>
         /// Gets or sets the player guild list.
@@ -290,7 +290,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The player guild list.
         /// </value>
-        private List<PacketPlayerGuild> PlayerGuildList { get; set; }
+        public List<PacketPlayerGuild> PlayerGuildList { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the player.
@@ -298,7 +298,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The name of the player.
         /// </value>
-        private string PlayerName { get; set; }
+        public string PlayerName { get; set; }
 
         /// <summary>
         /// Gets or sets the player uid.
@@ -306,7 +306,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The player uid.
         /// </value>
-        private ulong PlayerUID { get; set; }
+        public ulong PlayerUID { get; set; }
 
         /// <summary>
         /// Gets or sets the race.
@@ -314,7 +314,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The race.
         /// </value>
-        private uint Race { get; set; }
+        public uint Race { get; set; }
 
         /// <summary>
         /// Gets or sets the riding pet grade.
@@ -322,7 +322,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The riding pet grade.
         /// </value>
-        private byte RidingPetGrade { get; set; }
+        public byte RidingPetGrade { get; set; }
 
         /// <summary>
         /// Gets or sets the riding pet information identifier.
@@ -330,7 +330,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The riding pet information identifier.
         /// </value>
-        private uint RidingPetInfoID { get; set; }
+        public uint RidingPetInfoID { get; set; }
 
         /// <summary>
         /// Gets or sets the riding pet level.
@@ -338,7 +338,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The riding pet level.
         /// </value>
-        private uint RidingPetLevel { get; set; }
+        public uint RidingPetLevel { get; set; }
 
         /// <summary>
         /// Gets or sets the simple cape list.
@@ -346,7 +346,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The simple cape list.
         /// </value>
-        private List<PacketSimpleCape> SimpleCapeList { get; set; }
+        public List<PacketSimpleCape> SimpleCapeList { get; set; }
 
         /// <summary>
         /// Gets or sets the simple equip list.
@@ -354,7 +354,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The simple equip list.
         /// </value>
-        private List<PacketSimpleEquipment> SimpleEquipList { get; set; }
+        public List<PacketSimpleEquipment> SimpleEquipList { get; set; }
 
         /// <summary>
         /// Gets or sets the soul shot enabled.
@@ -362,7 +362,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The soul shot enabled.
         /// </value>
-        private byte SoulShotEnabled { get; set; }
+        public byte SoulShotEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the team identifier.
@@ -370,7 +370,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The team identifier.
         /// </value>
-        private ulong TeamID { get; set; }
+        public ulong TeamID { get; set; }
 
         /// <summary>
         /// Gets or sets the x position.
@@ -378,7 +378,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The x position.
         /// </value>
-        private float XPos { get; set; }
+        public float XPos { get; set; }
 
         /// <summary>
         /// Gets or sets the y position.
@@ -386,7 +386,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The y position.
         /// </value>
-        private float YPos { get; set; }
+        public float YPos { get; set; }
 
         /// <summary>
         /// Gets or sets the z position.
@@ -394,6 +394,6 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The z position.
         /// </value>
-        private float ZPos { get; set; }
+        public float ZPos { get; set; }
     }
 }
