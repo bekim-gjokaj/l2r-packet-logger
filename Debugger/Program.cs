@@ -45,7 +45,8 @@ namespace Kamael.Packets
                                     $"destX = {pkt.playerDestXpos}, " +
                                     $"destY = {pkt.playerDestYpos} ");
             }
-            if(e.Packet is PacketExpDisplayNotify)
+
+            if (e.Packet is PacketExpDisplayNotify)
             {
                 PacketExpDisplayNotify pkt = (PacketExpDisplayNotify)e.Packet;
                 Console.WriteLine($"Exp tick: Exp = {pkt.Exp}, " +
@@ -53,7 +54,15 @@ namespace Kamael.Packets
 
 
             }
-            
+            if (e.Packet is PacketClanInfoReadResult)
+            {
+                PacketClanInfoReadResult pkt = (PacketClanInfoReadResult)e.Packet;
+                Console.WriteLine($"Exp tick: Exp = {pkt.CombatPower}, " +
+                                    $"Bonus = {pkt.CombatPower2} ");
+
+
+            }
+
         }
 
 

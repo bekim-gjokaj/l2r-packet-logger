@@ -1,136 +1,132 @@
-﻿using Kamael.Packets.ExtensionMethods;
-using System;
-using System.IO;
+﻿using System;
 
 namespace Kamael.Packets.Clan
 {
     public class PacketClanInfoReadResult : IL2RPacket
     {
-        
-
         public PacketClanInfoReadResult(L2RPacket packet)
         {
             //using (StreamWriter fileStream = new StreamWriter(@"Output\DetailedGuildInfo.csv", true))
             //{
-                // First two bytes are not used.
-                packet.Skip(2);
+            // First two bytes are not used.
+            packet.Skip(2);
 
-                ////Writes header for the PktGuildInfoReadresult
-                //if (fileStream.BaseStream.Length < 1)
-                //{
-                //    fileStream.WriteLineAsync("ID,Ranking,Name,Leader,Level,Exp,As Percentage, Reputation,Combat Power,Adena," +
-                //        "Proof of Blood,Red Star Stone,Members,Checked in Yesterday,Checked in Today," +
-                //        "Fortress Owned,Fortress Occupy Date,Wins,Draws,Losses,Require Approval," +
-                //        "Level Requirement,Intro,Notice");
-                //}
+            ////Writes header for the PktGuildInfoReadresult
+            //if (fileStream.BaseStream.Length < 1)
+            //{
+            //    fileStream.WriteLineAsync("ID,Ranking,Name,Leader,Level,Exp,As Percentage, Reputation,Combat Power,Adena," +
+            //        "Proof of Blood,Red Star Stone,Members,Checked in Yesterday,Checked in Today," +
+            //        "Fortress Owned,Fortress Occupy Date,Wins,Draws,Losses,Require Approval," +
+            //        "Level Requirement,Intro,Notice");
+            //}
 
-                ID = packet.ReadUInt64();
-                Name = packet.ReadString();
-                EmblemSymbolID = packet.ReadUInt32();
-                EmblemBackgroundID = packet.ReadUInt32();
-                Level = packet.ReadUInt16();
-                Exp = packet.ReadUInt32();
-                Adena = packet.ReadUInt64();
-                BloodCrystal = packet.ReadUInt64();
-                Intro = packet.ReadString();
-                Notice = packet.ReadString();
-                IsPublic = packet.ReadByte();
-                Ranking = packet.ReadUInt32();
-                RankingTotal = packet.ReadUInt32();
-                Reputation = packet.ReadUInt32();
-                LeaderName = packet.ReadString();
-                SquireCount = packet.ReadUInt16();
-                GuardCount = packet.ReadUInt16();
-                KnightCount = packet.ReadUInt16();
-                CaptainCount = packet.ReadUInt16();
-                ElderCount = packet.ReadUInt16();
-                RequireApproval = packet.ReadByte();
-                LevelRequirement = packet.ReadUInt16();
-                CastleOwned = packet.ReadUInt32();
-                FortressOwned = "";//CSV.fortress.fortressName(packet.ReadInt32());
-                RedStarStone = packet.ReadUInt32();
-                packet.Skip(100); // Junk Data
-                PacketID2 = packet.ReadUInt32();
-                ID2 = packet.ReadUInt64();
-                Name2 = packet.ReadString();
-                Emblem2SymbolID = packet.ReadUInt32();
-                Emblem2BackgroundID = packet.ReadUInt32();
-                //Intro2 = packet.ReadString();
-                //Level2 = packet.ReadUInt16();
-                //Exp2 = packet.ReadUInt32();
-                //Reputation2 = packet.ReadUInt64();
-                //Spacer = packet.ReadUInt32();
-                //Members = packet.ReadUInt16();
-                //Leader2Name = packet.ReadString();
-                //Adena2 = packet.ReadUInt64();
-                //RequireApproval2 = packet.ReadByte();
-                //LevelRequirement2 = packet.ReadUInt16();
-                //Wins = packet.ReadUInt16();
-                //Draws = packet.ReadUInt16();
-                //Losses = packet.ReadUInt16();
-                //CombatPower2 = packet.ReadUInt64();
-                //Unk3 = packet.ReadUInt64();
-                //Unk4 = packet.ReadByte();
-                //FortressOccupyDate = Convert.ToDouble(packet.ReadUInt64());
-                //if (FortressOccupyDate > 0)
-                //{
-                //    FortressOccupyDate = FortressOccupyDate / 60 / 60 / 24 + 25569 - (5 / 24);
-                //}
-                //Unk5 = packet.ReadByte();
-                //Unk6 = packet.ReadUInt64();
-                //Unk7 = packet.ReadByte();
-                //Four = packet.ReadUInt16();
-                //Unk8 = packet.ReadByte();
-                //SiegeDate = Convert.ToDouble(packet.ReadUInt64());
-                //SiegeDate = SiegeDate / 60 / 60 / 24 + 25569 - (5 / 24);
-                //BidDate = Convert.ToDouble(packet.ReadUInt64());
-                //BidDate = BidDate / 60 / 60 / 24 + 25569 - (5 / 24);
-                //CombatPower = packet.ReadUInt64();
-                //Seven = packet.ReadUInt32();
-                //Unk9 = packet.ReadByte();
+            ID = packet.ReadUInt64();
+            Name = packet.ReadString();
+            EmblemSymbolID = packet.ReadUInt32();
+            EmblemBackgroundID = packet.ReadUInt32();
+            Level = packet.ReadUInt16();
+            Exp = packet.ReadUInt32();
+            Adena = packet.ReadUInt64();
+            BloodCrystal = packet.ReadUInt64();
+            Intro = packet.ReadString();
+            Notice = packet.ReadString();
+            IsPublic = packet.ReadByte();
+            Ranking = packet.ReadUInt32();
+            RankingTotal = packet.ReadUInt32();
+            Reputation = packet.ReadUInt32();
+            LeaderName = packet.ReadString();
+            SquireCount = packet.ReadUInt16();
+            GuardCount = packet.ReadUInt16();
+            KnightCount = packet.ReadUInt16();
+            CaptainCount = packet.ReadUInt16();
+            ElderCount = packet.ReadUInt16();
+            RequireApproval = packet.ReadByte();
+            LevelRequirement = packet.ReadUInt16();
+            CastleOwned = packet.ReadUInt32();
+            FortressOwned = Convert.ToString(packet.ReadInt32());
+            RedStarStone = packet.ReadUInt32();
+            packet.Skip(100); // Junk Data
+            PacketID2 = packet.ReadUInt32();
+            ID2 = packet.ReadUInt64();
+            Name2 = packet.ReadString();
+            Emblem2SymbolID = packet.ReadUInt32();
+            Emblem2BackgroundID = packet.ReadUInt32();
+            //Intro2 = packet.ReadString();
+            Level2 = packet.ReadUInt16();
+            Exp2 = packet.ReadUInt32();
+            Reputation2 = packet.ReadUInt64();
+            Spacer = packet.ReadUInt32();
+            Members = packet.ReadUInt16();
+            //Leader2Name = packet.ReadString();
+            Adena2 = packet.ReadUInt64();
+            RequireApproval2 = packet.ReadByte();
+            LevelRequirement2 = packet.ReadUInt16();
+            Wins = packet.ReadUInt16();
+            Draws = packet.ReadUInt16();
+            Losses = packet.ReadUInt16();
+            CombatPower2 = packet.ReadUInt64();
+            Unk3 = packet.ReadUInt64();
+            Unk4 = packet.ReadByte();
+            FortressOccupyDate = Convert.ToDouble(packet.ReadUInt64());
+            if (FortressOccupyDate > 0)
+            {
+                FortressOccupyDate = FortressOccupyDate / 60 / 60 / 24 + 25569 - (5 / 24);
+            }
+            Unk5 = packet.ReadByte();
+            Unk6 = packet.ReadUInt64();
+            Unk7 = packet.ReadByte();
+            Four = packet.ReadUInt16();
+            Unk8 = packet.ReadByte();
+            SiegeDate = Convert.ToDouble(packet.ReadUInt64());
+            SiegeDate = SiegeDate / 60 / 60 / 24 + 25569 - (5 / 24);
+            BidDate = Convert.ToDouble(packet.ReadUInt64());
+            BidDate = BidDate / 60 / 60 / 24 + 25569 - (5 / 24);
+            CombatPower = packet.ReadUInt64();
+            Seven = packet.ReadUInt32();
+            Unk9 = packet.ReadByte();
 
-                //CastleDate = Convert.ToDouble(packet.ReadUInt32());
-                //CastleDate = CastleDate / 60 / 60 / 24 + 25569 - (5 / 24);
-                //Unk11 = packet.ReadUInt16();
-                //Unk12 = packet.ReadByte();
-                //Unk13 = packet.ReadByte();
-                //Unk14 = packet.ReadByte();
-                //Unk14_2 = packet.ReadByte();
-                //Unk15 = packet.ReadUInt32();
-                //Unk15_2 = packet.ReadUInt32();
-                //CheckinYesterday = packet.ReadUInt16();
-                //CheckinToday = packet.ReadUInt16();
-                //Unk17 = packet.ReadUInt16();
-                //Unk18 = packet.ReadUInt32();
-                //Unk18_2 = packet.ReadUInt32();
-                //Unk20 = packet.ReadUInt16();
-                //Unk21 = packet.ReadUInt16();
-                //Unk22 = packet.ReadUInt16();
-                //Unk23 = packet.ReadUInt16();
-                //Unk24 = packet.ReadUInt16();
-                //Unk25 = packet.ReadUInt16();
-                //Unk26 = packet.ReadUInt16();
-                //Unk27 = packet.ReadUInt16();
-                //Unk28 = packet.ReadUInt16();
-                //Unk29 = packet.ReadUInt16();
-                //Unk30 = packet.ReadUInt16();
-                //Unk32 = packet.ReadByte();
+            CastleDate = Convert.ToDouble(packet.ReadUInt32());
+            CastleDate = CastleDate / 60 / 60 / 24 + 25569 - (5 / 24);
+            Unk11 = packet.ReadUInt16();
+            Unk12 = packet.ReadByte();
+            Unk13 = packet.ReadByte();
+            Unk14 = packet.ReadByte();
+            Unk14_2 = packet.ReadByte();
+            Unk15 = packet.ReadUInt32();
+            Unk15_2 = packet.ReadUInt32();
+            CheckinYesterday = packet.ReadUInt16();
+            CheckinToday = packet.ReadUInt16();
+            Unk17 = packet.ReadUInt16();
+            Unk18 = packet.ReadUInt32();
+            Unk18_2 = packet.ReadUInt32();
+            Unk20 = packet.ReadUInt16();
+            Unk21 = packet.ReadUInt16();
+            Unk22 = packet.ReadUInt16();
+            Unk23 = packet.ReadUInt16();
+            Unk24 = packet.ReadUInt16();
+            Unk25 = packet.ReadUInt16();
+            Unk26 = packet.ReadUInt16();
+            Unk27 = packet.ReadUInt16();
+            Unk28 = packet.ReadUInt16();
+            Unk29 = packet.ReadUInt16();
+            Unk30 = packet.ReadUInt16();
+            Unk32 = packet.ReadByte();
 
-                //// Calculates Total Members from Data given for all Clans
-                //TMembers = SquireCount + GuardCount + KnightCount + CaptainCount + ElderCount + 1;
-                //// Calculates Percentage to next level.
-                //ExpPer = Convert.ToDouble(CSV.guildLevelUp.guildLevelUpExp(Level));
-                //ExpPer = Exp / ExpPer * 100;
+            // Calculates Total Members from Data given for all Clans
+            TMembers = SquireCount + GuardCount + KnightCount + CaptainCount + ElderCount + 1;
+            //// Calculates Percentage to next level.
+            //ExpPer = Convert.ToDouble(CSV.guildLevelUp.guildLevelUpExp(Level));
+            //ExpPer = Exp / ExpPer * 100;
 
-                //fileStream.Write(ID + "," + Ranking + "," + Name + "," + LeaderName + "," + Level + "," + Exp + "," + ExpPer + "%," +
-                //    Reputation + "," + CombatPower + "," + Adena + "," + BloodCrystal + "," + RedStarStone + "," +
-                //     TMembers + "," + CheckinYesterday + "," + CheckinToday + "," +
-                //    FortressOwned + ",");
-                //if (FortressOccupyDate > 0)
-                //{ fileStream.Write(FortressOccupyDate + "," + Wins + "," + Draws + "," + Losses + ","); }
-                //else
-                //{ fileStream.Write(",,,,"); }
-                //fileStream.Write(RequireApproval + "," + LevelRequirement + ",\"" + Intro + "\",\"" + Notice + "\"\n");
+            //fileStream.Write(ID + "," + Ranking + "," + Name + "," + LeaderName + "," + Level + "," + Exp + "," + ExpPer + "%," +
+            //    Reputation + "," + CombatPower + "," + Adena + "," + BloodCrystal + "," + RedStarStone + "," +
+            //     TMembers + "," + CheckinYesterday + "," + CheckinToday + "," +
+            //    FortressOwned + ",");
+            //if (FortressOccupyDate > 0)
+            //{ fileStream.Write(FortressOccupyDate + "," + Wins + "," + Draws + "," + Losses + ","); }
+            //else
+            //{ fileStream.Write(",,,,"); }
+            //fileStream.Write(RequireApproval + "," + LevelRequirement + ",\"" + Intro + "\",\"" + Notice + "\"\n");
             //}
         }
 
