@@ -58,7 +58,7 @@ namespace Kamael.Packets
         /// <value>
         /// The player dest xpos.
         /// </value>
-        private float playerDestXpos { get; set; }
+        public float playerDestXpos { get; set; }
 
         /// <summary>
         /// Gets or sets the player dest ypos.
@@ -66,7 +66,7 @@ namespace Kamael.Packets
         /// <value>
         /// The player dest ypos.
         /// </value>
-        private float playerDestYpos { get; set; }
+        public float playerDestYpos { get; set; }
 
         /// <summary>
         /// Gets or sets the player identifier.
@@ -74,7 +74,7 @@ namespace Kamael.Packets
         /// <value>
         /// The player identifier.
         /// </value>
-        private ulong playerId { get; set; }
+        public ulong playerId { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the player move.
@@ -82,6 +82,6 @@ namespace Kamael.Packets
         /// <value>
         /// The type of the player move.
         /// </value>
-        private ushort playerMoveType { get; set; }
+        public ushort playerMoveType { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Kamael.Packets.Character;
 using Kamael.Packets.Clan;
+using Kamael.Packets.Status;
 using PacketDotNet;
 using SharpPcap;
 using System;
@@ -36,14 +37,23 @@ namespace Kamael.Packets
             if (test != null)
                 Console.WriteLine("GOT ONE!!");
 
-            //switch (e.Packet.GetType().ToString())
-            //{
-            //    case "PacketGuildMemberListReadResult":
-            //        PacketGuildMemberListReadResult members = e.Packet;
-            //        Console.WriteLine($"Got PacketGuildMemberListReadResult: Member count ({(PacketGuildMemberListReadResult)e.Packet.})");
-            //        break;
+            if(e.Packet is PacketStatusMovement)
+            {
+                PacketStatusMovement pkt = (PacketStatusMovement)e.Packet;
+                Console.WriteLine($"Move status: Player ID = {pkt.playerId}, " +
+                                    $"movetype = {pkt.playerMoveType}, " +
+                                    $"destX = {pkt.playerDestXpos}, " +
+                                    $"destY = {pkt.playerDestYpos} ");
+            }
+            if(e.Packet is PacketExpDisplayNotify)
+            {
+                PacketExpDisplayNotify pkt = (PacketExpDisplayNotify)e.Packet;
+                Console.WriteLine($"Exp tick: Exp = {pkt.Exp}, " +
+                                    $"Bonus = {pkt.Bonus} ");
 
-            //}
+
+            }
+            
         }
 
 
