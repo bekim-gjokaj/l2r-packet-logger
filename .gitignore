@@ -5,3 +5,4 @@
 /.vs
 /Debugger/bin/Debug/netcoreapp2.1/Output
 /Debugger
+/packages

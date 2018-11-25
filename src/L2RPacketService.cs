@@ -376,6 +376,7 @@ namespace Kamael.Packets
                     //payloadData.CopyTo(packetData, 3);
                     Array.Copy(payloadData, 3, packetData, 0, packetLength - 3);
                     DecryptPacket(packetData);
+                    byte[] packetBytes = packetData;
 
                     //Get packet id
                     L2RPacket packetReader = new L2RPacket(packetData);
@@ -388,7 +389,9 @@ namespace Kamael.Packets
                     //FIRE L2RPacketArrivalEvent
                     L2RPacketArrivalEventArgs args = new L2RPacketArrivalEventArgs
                     {
-                        Packet = l2rpckt
+                        ID = packetId,
+                        Packet = l2rpckt,
+                        PacketBytes = packetBytes
                     };
                     OnL2RPacketArrival(args);
 
@@ -434,7 +437,9 @@ namespace Kamael.Packets
 
         public class L2RPacketArrivalEventArgs : EventArgs
         {
+            public ushort ID { get; set; }
             public IL2RPacket Packet { get; set; }
+            public byte[] PacketBytes { get; set; }
         }
     }
 }
