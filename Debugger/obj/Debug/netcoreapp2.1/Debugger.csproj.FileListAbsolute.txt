@@ -12,3 +12,4 @@ D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.csproj.
 D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Debugger.pdb
 D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.dll
 D:\DEV\repos\L2R Packet Logger\Debugger\obj\Debug\netcoreapp2.1\Debugger.pdb
+D:\DEV\repos\L2R Packet Logger\Debugger\bin\Debug\netcoreapp2.1\Debugger.dll.config
