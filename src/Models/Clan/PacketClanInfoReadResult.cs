@@ -43,7 +43,7 @@ namespace Kamael.Packets.Clan
             RequireApproval = packet.ReadByte();
             LevelRequirement = packet.ReadUInt16();
             CastleOwned = packet.ReadUInt32();
-            FortressOwned = Convert.ToString(packet.ReadInt32());
+            FortressOwned = Convert.ToString(packet.ReadInt64());
             RedStarStone = packet.ReadUInt32();
             packet.Skip(100); // Junk Data
             PacketID2 = packet.ReadUInt32();
