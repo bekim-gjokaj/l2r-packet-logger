@@ -21,9 +21,8 @@ namespace Kamael.Packets.Factory
                 switch (PacketID)
                 {
                     case 202: 
-                    //case 203: 
                     case 204: return new PacketSightEnterNotify((L2RPacket)packet);
-
+                    case 203: 
                     case 206: return new PacketStatusMovement((L2RPacket)packet);
                     case 289: return new PacketExpDisplayNotify((L2RPacket)packet);
                     case 774: return new PacketChatGuildListReadResult((L2RPacket)packet);     // 0x307//return new PacketChatGuildListReadResult";
