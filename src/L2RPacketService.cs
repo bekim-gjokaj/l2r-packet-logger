@@ -119,6 +119,18 @@ namespace Kamael.Packets
             //StartCapture();
         }
 
+        public void StartCapture(ICaptureDevice Device)
+        {
+            device = Device;
+            StartCapture();
+        }
+
+        public void StartCapture(int itemIndex)
+        {
+            device = CaptureDeviceList.Instance[itemIndex];
+            StartCapture();
+        }
+
         public void StartCapture()
         {
             packetCount = 0;
