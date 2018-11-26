@@ -1,6 +1,8 @@
 ﻿using Kamael.Packets.Character;
 using Kamael.Packets.Clan;
 using Kamael.Packets.Status;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PacketDotNet;
 using SharpPcap;
 using System;
@@ -57,8 +59,16 @@ namespace Kamael.Packets
             if (e.Packet is PacketClanInfoReadResult)
             {
                 PacketClanInfoReadResult pkt = (PacketClanInfoReadResult)e.Packet;
-                Console.WriteLine($"Exp tick: Exp = {pkt.CombatPower}, " +
-                                    $"Bonus = {pkt.CombatPower2} ");
+
+
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                serializer.NullValueHandling = NullValueHandling.Ignore;
+
+                string json = JsonConvert.SerializeObject(pkt);
+
+
+                Console.WriteLine(json);
 
 
             }
