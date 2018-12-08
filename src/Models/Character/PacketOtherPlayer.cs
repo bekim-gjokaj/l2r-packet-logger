@@ -19,8 +19,8 @@ namespace Kamael.Packets.Character
         public PacketOtherPlayer(IL2RPacket packet)
         {
             PlayerUID = packet.ReadUInt64();
-            uint unk1 = packet.ReadUInt32();
-            byte unk2 = packet.ReadByte();
+            //uint unk1 = packet.ReadUInt32();
+            //byte unk2 = packet.ReadByte();
             PlayerName = packet.ReadString();
             Race = packet.ReadUInt32();
             Class = packet.ReadUInt32();
