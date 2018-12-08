@@ -19,6 +19,7 @@
 
             ItemInfoID = packet.ReadUInt32();
             EnchantLevel = packet.ReadByte();
+            byte tmpUnk = packet.ReadByte();
         }
 
         /// <summary>

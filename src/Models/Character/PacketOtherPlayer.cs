@@ -30,6 +30,8 @@ namespace Kamael.Packets.Character
             CurHP = packet.ReadUInt32();
             MaxHP = packet.ReadUInt32();
             MoveSpeed = packet.ReadUInt32();
+
+
             BuffCount = packet.ReadUInt16();
             // PktBuffInfo
             BuffInfoList = new List<PacketBuffInfo>();
@@ -46,14 +48,16 @@ namespace Kamael.Packets.Character
             PKPoint = packet.ReadUInt32();
 
             //// PktAppearance
-            //AppearanceList.Add(new PacketAppeareance(packet));
+            AppearanceList = new List<PacketAppeareance>();
+            AppearanceList.Add(new PacketAppeareance(packet));
 
             EquipCount = packet.ReadUInt16();
             // PktSimpleEquipment
             SimpleEquipList = new List<PacketSimpleEquipment>();
             for (int i = 0; i < EquipCount; i++)
             {
-                //SimpleEquipList.Add(new PacketSimpleEquipment(packet));
+                SimpleEquipList.Add(new PacketSimpleEquipment(packet));
+                
             }
 
             TeamID = packet.ReadUInt64();
@@ -75,13 +79,15 @@ namespace Kamael.Packets.Character
 
             //pktPartyEmblem
             byte SetEmblem = packet.ReadByte();
+            PartyEmblemList = new List<PacketPartyEmblem>();
             if (SetEmblem > 0)
             {
-                //PartyEmblemList.Add(new PacketPartyEmblem(packet));
+                PartyEmblemList.Add(new PacketPartyEmblem(packet));
             }
 
             //PktSimpleCape
-            //SimpleCapeList.Add(new PacketSimpleCape(packet));
+            SimpleCapeList = new List<PacketSimpleCape>();
+            SimpleCapeList.Add(new PacketSimpleCape(packet));
 
             //PktPKMode
             PKModeList = new List<PacketPKMode>();
@@ -395,5 +401,7 @@ namespace Kamael.Packets.Character
         /// The z position.
         /// </value>
         public float ZPos { get; set; }
+
+        public string tmpClanName { get; set; }
     }
 }

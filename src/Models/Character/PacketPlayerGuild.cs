@@ -16,11 +16,11 @@ namespace Kamael.Packets.Character
         {
             GuildID = packet.ReadUInt64();
             GuildMembersGrade = packet.ReadByte();
-            //GuildName = packet.ReadString();
-            //EmblemSymbolInfoID = packet.ReadUInt32();
-            //EmblemBackgroundInfoID = packet.ReadUInt32();
-            //OccupyTitleInfoID = packet.ReadUInt32();
-            //CastleType = packet.ReadByte();
+            GuildName = packet.ReadString();
+            EmblemSymbolInfoID = packet.ReadUInt32();
+            EmblemBackgroundInfoID = packet.ReadUInt32();
+            OccupyTitleInfoID = packet.ReadUInt32();
+            CastleType = packet.ReadByte();
         }
 
         /// <summary>
