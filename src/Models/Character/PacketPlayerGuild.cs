@@ -45,7 +45,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The type of the castle.
         /// </value>
-        private byte CastleType { get; set; }
+        public byte CastleType { get; set; }
 
         /// <summary>
         /// Gets or sets the emblem background information identifier.
@@ -53,7 +53,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The emblem background information identifier.
         /// </value>
-        private uint EmblemBackgroundInfoID { get; set; }
+        public uint EmblemBackgroundInfoID { get; set; }
 
         /// <summary>
         /// Gets or sets the emblem symbol information identifier.
@@ -61,7 +61,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The emblem symbol information identifier.
         /// </value>
-        private uint EmblemSymbolInfoID { get; set; }
+        public uint EmblemSymbolInfoID { get; set; }
 
         /// <summary>
         /// Gets or sets the guild identifier.
@@ -69,7 +69,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The guild identifier.
         /// </value>
-        private ulong GuildID { get; set; }
+        public ulong GuildID { get; set; }
 
         /// <summary>
         /// Gets or sets the guild members grade.
@@ -77,7 +77,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The guild members grade.
         /// </value>
-        private byte GuildMembersGrade { get; set; }
+        public byte GuildMembersGrade { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the guild.
@@ -85,7 +85,7 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The name of the guild.
         /// </value>
-        private string GuildName { get; set; }
+        public string GuildName { get; set; }
 
         /// <summary>
         /// Gets or sets the occupy title information identifier.
@@ -93,6 +93,6 @@ namespace Kamael.Packets.Character
         /// <value>
         /// The occupy title information identifier.
         /// </value>
-        private uint OccupyTitleInfoID { get; set; }
+        public uint OccupyTitleInfoID { get; set; }
     }
 }
