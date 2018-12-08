@@ -18,6 +18,7 @@ namespace Kamael.Packets.Character
         /// <param name="packet">The packet.</param>
         public PacketOtherPlayer(IL2RPacket packet)
         {
+            //pushing a change to be sure
             PlayerUID = packet.ReadUInt64();
             //uint unk1 = packet.ReadUInt32();
             //byte unk2 = packet.ReadByte();
